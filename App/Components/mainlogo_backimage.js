@@ -25,7 +25,7 @@ class MainLogoImage extends Component {
         return(
             <View style={styles.container}>
                 <Image source={require('../../assets/bg_screen.png')} style={styles.backgroundImage}></Image>
-                <Image source={require('../../assets/logo.png')} style={{width: 200, height: 200,marginTop:40}}></Image>
+                <Image source={require('../../assets/logo.png')} style={{width: 150, height: 150}}></Image>
             </View>
         )
     }

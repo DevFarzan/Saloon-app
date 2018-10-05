@@ -27,9 +27,9 @@ export default StyleSheet.create({
         justifyContent:'center'
     },
     backgroundImage: {
-        flex:1,
+
         position:'absolute',
-        height:height,
+
         width:width,
         resizeMode: 'cover'
 
@@ -68,7 +68,14 @@ export default StyleSheet.create({
         alignSelf:'center',
         marginTop:25,
         justifyContent:'center'
+    },
+    buttonSignup:{
+        width:width*0.9,
+        alignSelf:'center',
+        marginTop:25,
+        justifyContent:'center'
     }
+
 
 
 });

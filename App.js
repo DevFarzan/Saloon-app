@@ -6,7 +6,7 @@ import getSlideFromRightTransition from 'react-navigation-slide-from-right-trans
 import LoginScreen from './App/Containers/LoginScreen';
 import HomeScreen from './App/Containers/HomeScreen';
 import signUpScreen from './App/Containers/signupScreen';
-
+import TermCondition from './App/Containers/termCondition';
 
 
 export default class App extends Component {
@@ -20,9 +20,10 @@ export default class App extends Component {
 const AppStackNavigator = createStackNavigator({
     login:LoginScreen,
     signup:signUpScreen,
-    home:HomeScreen
+    home:HomeScreen,
+    term:TermCondition
 
-}, {
+},{
     transitionConfig: getSlideFromRightTransition
 
 });

@@ -15,12 +15,10 @@ export default StyleSheet.create({
         justifyContent:'center'
     },
     backgroundImage: {
-        flex:1,
+
         position:'absolute',
         height:height,
-        width:width,
-        resizeMode: 'cover'
-
+        width:width
     }
 
 

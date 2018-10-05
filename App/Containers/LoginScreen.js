@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View,StyleSheet,Image,Dimensions,TextInput } from 'react-native';
+import {View, StyleSheet, Image, Dimensions, TextInput, ScrollView} from 'react-native';
 import MainLogin_backimage from '../Components/mainlogo_backimage';
 import { Container, Header, Content, Item, Input,Button,Text } from 'native-base';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -23,9 +23,12 @@ class LoginScreen extends Component {
 
 	render(){
 		return(
+            <View>
+                <MainLogin_backimage />
+
+            <ScrollView>
+                   <View style={{marginTop:200}}></View>
 					<View>
-						<MainLogin_backimage />
-                        <View style={{marginTop:250,backgroundColor:'black'}}></View>
 						<View style={styles.inputComponent}>
                             <Item regular style={{borderRadius:25}}>
                                 <Icon name="user" size={19} color="#900" style={{marginLeft:10,color:'black'}} />
@@ -49,11 +52,14 @@ class LoginScreen extends Component {
                             </Button>
                         </View>
                         <View>
-                            <Button warning style={styles.buttonNewuser} onPress={() => this.props.navigation.navigate('signup')}>
-                                <Text>New User</Text>
-                            </Button>
-                        </View>
+                        <Button warning style={styles.buttonNewuser} onPress={() => this.props.navigation.navigate('signup')}>
+                            <Text>New User</Text>
+                        </Button>
+
+                    </View>
 					</View>
+            </ScrollView>
+            </View>
 			)
 	}
 }
