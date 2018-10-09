@@ -49,30 +49,30 @@ export default StyleSheet.create({
         width:width*0.9,
         alignSelf: 'center',
         backgroundColor: 'white',
-        marginTop:16
+        marginTop:15
     },
     buttonComponent:{
         width:width*0.7,
         alignSelf:'center',
-        marginTop:16,
+        marginTop:15,
         justifyContent: 'center'
     },
     buttonFacebook:{
         width:width*0.7,
         alignSelf:'center',
-        marginTop:50,
+        marginTop:15,
         justifyContent:'center'
     },
     buttonNewuser:{
         width:width*0.7,
         alignSelf:'center',
-        marginTop:25,
+        marginTop:15,
         justifyContent:'center'
     },
     buttonSignup:{
         width:width*0.9,
         alignSelf:'center',
-        marginTop:25,
+        marginTop:15,
         justifyContent:'center'
     }
 

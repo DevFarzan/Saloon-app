@@ -12,37 +12,81 @@ const {height, width} = Dimensions.get("window");
 const remote = './images/bg_screen.png';
 
 class LoginScreen extends Component {
+    constructor(props){
+        super(props);
+        this.state ={
+            email: '',
+            password: '',
+            formErrors: {email: '', password: ''},
+            emailValid: false,
+            passwordValid: false,
+            formValid: false
+        }
+        this.handleUserInput = this.handleUserInput.bind(this)
+    }
+    static navigationOptions = {
+        headerTitle:'Login',
+        headerStyle: {backgroundColor: '#F7941E'},
+        headerTitleStyle: {fontSize: height*0.035 ,  color: 'white', textAlign: 'center', alignSelf: "center", flex: 1},
+    }
 
- static navigationOptions = {
-     headerTitle:'Login',
-     headerStyle: {backgroundColor: '#F7941E'},
-     headerTitleStyle: {fontSize: height*0.035 ,  color: 'white', textAlign: 'center', alignSelf: "center", flex: 1},
- }
+    handleUserInput(val, e ) {
+        const name = e;
+        const value = val;
+        console.log(name)
+        console.log(value)
+        this.setState({[name]: value},
+            () => { this.validateField(name, value) });
+    }
 
+    validateField(fieldName, value) {
+        let fieldValidationErrors = this.state.formErrors;
+        let emailValid = this.state.emailValid;
+        let passwordValid = this.state.passwordValid;
 
+        switch(fieldName) {
+            case 'email':
+                emailValid = value.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i);
+                fieldValidationErrors.email = emailValid ? '' : ' is invalid';
+                break;
+            case 'password':
+                passwordValid = value.length >= 6;
+                fieldValidationErrors.password = passwordValid ? '': ' is too short';
+                break;
+            default:
+                break;
+        }
+        this.setState({formErrors: fieldValidationErrors,
+            emailValid: emailValid,
+            passwordValid: passwordValid
+        }, this.validateForm);
+    }
 
-	render(){
-		return(
+    validateForm() {
+        this.setState({formValid: this.state.emailValid && this.state.passwordValid});
+    }
+
+    render(){
+        return(
             <View>
                 <MainLogin_backimage />
-
-            <ScrollView>
-                   <View style={{marginTop:200}}></View>
-					<View>
-						<View style={styles.inputComponent}>
+                <ScrollView>
+                    <View style={{marginTop:150}}></View>
+                    <View>
+                        <View style={styles.inputComponent}>
                             <Item regular style={{borderRadius:25}}>
                                 <Icon name="user" size={19} color="#900" style={{marginLeft:10,color:'black'}} />
-                                <Input placeholder='Email' />
+                                <Input name='email' placeholder='Email' onChangeText={(text) => this.handleUserInput(text, 'email')} />
                             </Item>
-						</View>
+                        </View>
                         <View style={styles.inputComponent}>
                             <Item regular style={{borderRadius:25}}>
                                 <Icon name="unlock-alt" size={19} color="black" style={{marginLeft:10}} />
-                                <Input placeholder='Password' />
+                                <Input name='password' placeholder='Password' secureTextEntry={true} onChangeText={(text) => this.handleUserInput(text, 'password')}/>
                             </Item>
                         </View>
                         <View>
-                            <Button warning style={styles.buttonComponent} onPress={() => this.props.navigation.navigate('home')}>
+                            <Button warning disabled={!this.state.formValid} style={styles.buttonComponent} onPress={() => this.props.navigation.navigate('DrawerNavigator')}>
                                 <Text> Login </Text>
                             </Button>
                         </View>
@@ -51,17 +95,14 @@ class LoginScreen extends Component {
                                 <Text>Facebook</Text>
                             </Button>
                         </View>
-                        <View>
-                        <Button warning style={styles.buttonNewuser} onPress={() => this.props.navigation.navigate('signup')}>
+                        <Button warning style={styles.buttonNewuser} onPress={() => this.props.navigation.navigate('SignUpScreen')}>
                             <Text>New User</Text>
                         </Button>
-
                     </View>
-					</View>
-            </ScrollView>
+                </ScrollView>
             </View>
-			)
-	}
+        )
+    }
 }
 
 export default LoginScreen;
