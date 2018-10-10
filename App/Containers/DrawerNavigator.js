@@ -16,8 +16,19 @@ const InnerStackNavigator = new StackNavigator({
     }
 })
 
+const HomeStackNavigator = new StackNavigator({
+    HomeNavigator: {
+        screen: HomeScreen
+    }
+})
+
 const AppDrawerNavigator = new DrawerNavigator({
-    HomeScreen: { screen: InnerStackNavigator }
+    'About Us': { screen: InnerStackNavigator },
+    'Our Services': { screen: HomeStackNavigator },
+    'Online Booking': { screen: InnerStackNavigator },
+    'Gallery': { screen: InnerStackNavigator },
+    'Find Our Branches': { screen: InnerStackNavigator },
+    'Contact Us': { screen: InnerStackNavigator },
 })
 
 

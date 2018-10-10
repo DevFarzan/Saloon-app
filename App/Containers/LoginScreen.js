@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
-import {View, StyleSheet, Image, Dimensions, TextInput, ScrollView} from 'react-native';
+import {View, StyleSheet, Image, Dimensions, ActivityIndicator, ScrollView, AsyncStorage} from 'react-native';
 import MainLogin_backimage from '../Components/mainlogo_backimage';
 import { Container, Header, Content, Item, Input,Button,Text } from 'native-base';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import InputCompoent from '../Components/InputCompoent';
 //import Icon from 'react-native-vector-icons/FontAwesome';
 import styles from './styles/loginScreen'
+import {HttpUtils} from "../Services/HttpUtils";
 
 const {height, width} = Dimensions.get("window");
 
@@ -20,9 +21,11 @@ class LoginScreen extends Component {
             formErrors: {email: '', password: ''},
             emailValid: false,
             passwordValid: false,
-            formValid: false
+            formValid: false,
+            loader: false
         }
         this.handleUserInput = this.handleUserInput.bind(this)
+        this.handleSubmit = this.handleSubmit.bind(this);
     }
     static navigationOptions = {
         headerTitle:'Login',
@@ -66,27 +69,66 @@ class LoginScreen extends Component {
         this.setState({formValid: this.state.emailValid && this.state.passwordValid});
     }
 
+    async handleSubmit(){
+        const { email, password, loader } = this.state;
+        if(!loader) {
+            try {
+                this.setState({loader: true, formValid: false});
+                let obj = {
+                    email,
+                    password
+                };
+                let res = await HttpUtils.post('auth', obj);
+                console.log(res, 'ressssssssssss')
+                if (res.code === 200) {
+                    AsyncStorage.setItem('user', JSON.stringify(res.content))
+                        .then((response) => {
+                            this.setState({loader: false});
+                            this.props.navigation.navigate('DrawerNavigator');
+                        });
+                }
+            } catch {
+                console.log('errorrrrrrrrrrr')
+            }
+        }
+    }
+
     render(){
+        const { formErrors } = this.state;
+        let error = '';
+        if(!!formErrors.email){
+            error = 'email' + formErrors.email;
+        }else if(!!formErrors.password){
+            error = 'password' + formErrors.password;
+        }
         return(
             <View>
                 <MainLogin_backimage />
                 <ScrollView>
-                    <View style={{marginTop:150}}></View>
                     <View>
+                        <View style={error.length ? {marginTop:130} : {marginTop: 150}}>
+                            {!!error && <Text>{error}</Text>}
+                        </View>
                         <View style={styles.inputComponent}>
                             <Item regular style={{borderRadius:25}}>
                                 <Icon name="user" size={19} color="#900" style={{marginLeft:10,color:'black'}} />
-                                <Input name='email' placeholder='Email' onChangeText={(text) => this.handleUserInput(text, 'email')} />
+                                <Input name='email' placeholder='Email'
+                                       value={this.state.email}
+                                       onChangeText={(text) => this.handleUserInput(text, 'email')} />
                             </Item>
                         </View>
                         <View style={styles.inputComponent}>
                             <Item regular style={{borderRadius:25}}>
                                 <Icon name="unlock-alt" size={19} color="black" style={{marginLeft:10}} />
-                                <Input name='password' placeholder='Password' secureTextEntry={true} onChangeText={(text) => this.handleUserInput(text, 'password')}/>
+                                <Input name='password' placeholder='Password' secureTextEntry={true}
+                                       value={this.state.password}
+                                       onChangeText={(text) => this.handleUserInput(text, 'password')}/>
                             </Item>
                         </View>
                         <View>
-                            <Button warning disabled={!this.state.formValid} style={styles.buttonComponent} onPress={() => this.props.navigation.navigate('DrawerNavigator')}>
+                            <Button warning disabled={!this.state.formValid} style={styles.buttonComponent}
+                                    onPress={() => this.handleSubmit()}>
+                                {this.state.loader && <ActivityIndicator size="small" color="#00ff00" />}
                                 <Text> Login </Text>
                             </Button>
                         </View>
@@ -95,7 +137,8 @@ class LoginScreen extends Component {
                                 <Text>Facebook</Text>
                             </Button>
                         </View>
-                        <Button warning style={styles.buttonNewuser} onPress={() => this.props.navigation.navigate('SignUpScreen')}>
+                        <Button warning style={styles.buttonNewuser}
+                                onPress={() => this.props.navigation.navigate('SignUpScreen')}>
                             <Text>New User</Text>
                         </Button>
                     </View>
