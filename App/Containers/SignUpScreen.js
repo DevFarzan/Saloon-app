@@ -7,7 +7,9 @@ import {
     View,
     Text,
     ScrollView,
-    TouchableOpacity, Dimensions
+    TouchableOpacity,
+    Dimensions,
+    ActivityIndicator
 } from 'react-native';
 import MainLogin_backimage from "../Components/mainlogo_backimage";
 import styles from './styles/loginScreen'
@@ -30,7 +32,8 @@ class SignUpScreen extends Component {
             numberValid: false,
             emailValid: false,
             passwordValid: false,
-            formValid: false
+            formValid: false,
+            loader: false
         }
         this.handleUserInput = this.handleUserInput.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -94,24 +97,26 @@ class SignUpScreen extends Component {
     }
 
     async handleSubmit(){
-        try {
-            const { name, number, email, password, boo } = this.state;
-            let obj = {
-                name,
-                number: 0 + number,
-                email,
-                password
-            };
-            let res = await HttpUtils.post('users', obj);
-            console.log(res, 'reqqqqqq');
-            if(res.code === 200){
-                AsyncStorage.setItem('user', JSON.stringify(res.content))
-                    .then((response) => {
-                        this.props.navigation.navigate('DrawerNavigator');
-                    })
+        const { name, number, email, password, loader } = this.state;
+        if(!loader) {
+            try {
+                this.setState({loader: true, formValid: false});
+                let obj = {
+                    name,
+                    number: 0 + number,
+                    email,
+                    password
+                };
+                let res = await HttpUtils.post('users', obj);
+                if (res.code === 200) {
+                    AsyncStorage.setItem('user', JSON.stringify(res.content))
+                        .then((response) => {
+                            this.props.navigation.navigate('DrawerNavigator');
+                        })
+                }
+            } catch {
+                console.log('errorrrrrrrrrrr')
             }
-        }catch {
-            console.log('errorrrrrrrrrrr')
         }
     }
 
@@ -182,6 +187,7 @@ class SignUpScreen extends Component {
                 </View>
                 <View>
                     <Button warning style={styles.buttonSignup} disabled={!(this.state.formValid && this.state.boo) }>
+                        {this.state.loader && <ActivityIndicator size="small" color="#00ff00" />}
                         <Text style={{color:'white'}} onPress={() => this.handleSubmit()}>Sign Up</Text>
                     </Button>
                 </View>
