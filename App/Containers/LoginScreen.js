@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import {View, StyleSheet, Image, Dimensions, ActivityIndicator, ScrollView, AsyncStorage} from 'react-native';
+import {View, StyleSheet, Image, Dimensions, ActivityIndicator, ScrollView, AsyncStorage,TouchableOpacity} from 'react-native';
 import MainLogin_backimage from '../Components/mainlogo_backimage';
-import { Container, Header, Content, Item, Input,Button,Text } from 'native-base';
+import { Container, Header, Content, Item, Input,Button,Text,Footer, FooterTab } from 'native-base';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import InputCompoent from '../Components/InputCompoent';
 //import Icon from 'react-native-vector-icons/FontAwesome';
@@ -27,10 +27,23 @@ class LoginScreen extends Component {
         this.handleUserInput = this.handleUserInput.bind(this)
         this.handleSubmit = this.handleSubmit.bind(this);
     }
-    static navigationOptions = {
+    static navigationOptions = ({ navigation }) => {
+        return{
         headerTitle:'Login',
-        headerStyle: {backgroundColor: '#F7941E'},
-        headerTitleStyle: {fontSize: height*0.035 ,  color: 'white', textAlign: 'center', alignSelf: "center", flex: 1},
+        headerStyle: {backgroundColor: 'white'},
+        headerTitleStyle: {fontSize: height*0.035, color:'black', textAlign: 'center',flex:1},
+        headerLeft: (
+        <TouchableOpacity
+            onPress={() => navigation.goBack()}
+            >
+            <Text style={{marginLeft:14}}><Icon name="chevron-left" size={20} color="#00000073" /></Text>
+        </TouchableOpacity>
+    ),
+        headerRight:(
+            <View>
+            </View>
+            )
+        }
     }
 
     handleUserInput(val, e ) {
@@ -102,30 +115,41 @@ class LoginScreen extends Component {
             error = 'password' + formErrors.password;
         }
         return(
-            <View>
-                <MainLogin_backimage />
+            <View style={styles.container}>
+                
                 <ScrollView>
                     <View>
-                        <View style={error.length ? {marginTop:130} : {marginTop: 150}}>
-                            {!!error && <Text>{error}</Text>}
+                        <View style={error.length ? {marginTop:140} : {marginTop: 200}}>
+                            {!!error && <Text style={{color:'white',backgroundColor:'blue'}}>{error}</Text>}
                         </View>
                         <View style={styles.inputComponent}>
-                            <Item regular style={{borderRadius:25}}>
-                                <Icon name="user" size={19} color="#900" style={{marginLeft:10,color:'black'}} />
-                                <Input name='email' placeholder='Email'
+                            <Item regular>
+                                {/*<Icon name="user" size={19} color="white" style={{marginLeft:10}} />*/}
+                                <Image source={require('../../assets/Dark/loginuser.png')} style={{width:50,height:50}}></Image>
+                                <Input name='email' placeholder='Email' placeholderTextColor='white'
                                        value={this.state.email}
-                                       onChangeText={(text) => this.handleUserInput(text, 'email')} />
+                                       onChangeText={(text) => this.handleUserInput(text, 'email')} style={{color:'white'}} />
                             </Item>
                         </View>
                         <View style={styles.inputComponent}>
-                            <Item regular style={{borderRadius:25}}>
-                                <Icon name="unlock-alt" size={19} color="black" style={{marginLeft:10}} />
-                                <Input name='password' placeholder='Password' secureTextEntry={true}
+                            <Item regular>
+                                {/*<Icon name="unlock-alt" size={19} color="white" style={{marginLeft:10}} />*/}
+                                <Image source={require('../../assets/Dark/loginpassword.png')} style={{width:50,height:50}}></Image>
+                                <Input name='password' placeholder='Password' placeholderTextColor='white' secureTextEntry={true}
                                        value={this.state.password}
                                        onChangeText={(text) => this.handleUserInput(text, 'password')}/>
                             </Item>
                         </View>
+                        <View style={{marginTop:25}}></View>
                         <View>
+                            <Text style={styles.orStyling}>OR</Text>
+                        </View>
+                        <View>
+                            <Button light style={styles.buttonFacebook}>
+                                <Text style={styles.buttonFacebookText}>SIGN WITH FACEBOOK</Text>
+                            </Button>
+                        </View>
+                        {/*<View>
                             <Button warning disabled={!this.state.formValid} style={styles.buttonComponent}
                                     onPress={() => this.handleSubmit()}>
                                 {this.state.loader && <ActivityIndicator size="small" color="#00ff00" />}
@@ -141,8 +165,16 @@ class LoginScreen extends Component {
                                 onPress={() => this.props.navigation.navigate('SignUpScreen')}>
                             <Text>New User</Text>
                         </Button>
+                    */}
                     </View>
                 </ScrollView>
+                <Footer style={{backgroundColor:'white'}} warning disabled={!this.state.formValid} onPress={() => this.handleSubmit()}>
+                <Button style={{width:width,height:height*0.1,justifyContent:'center',alignItem:'center'}} disabled={!this.state.formValid} onPress={() => this.handleSubmit()}>
+                    <Text style={{marginTop:-15,fontWeight:'bold'}}>Sign In</Text>
+                </Button>
+                    {this.state.loader && <ActivityIndicator size="small" color="#00ff00" />}
+                        
+                </Footer>
             </View>
         )
     }

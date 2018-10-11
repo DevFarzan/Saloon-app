@@ -3,11 +3,11 @@ const {height, width} = Dimensions.get("window");
 
 
 
-
 export default StyleSheet.create({
     container:{
         flex:1,
-        backgroundColor:'black'
+        alignItems:'center',
+        backgroundColor:'#f6fafe'
     },
     searchSection: {
         flex: 1,
@@ -45,10 +45,10 @@ export default StyleSheet.create({
         paddingBottom:14
     },
     inputComponent: {
-        width:width*0.8,
+        width:width*0.9,
         alignSelf: 'center',
-        marginTop:15,
-        color:'white'
+        backgroundColor: 'white',
+        marginTop:15
     },
     buttonComponent:{
         width:width*0.7,
@@ -57,14 +57,10 @@ export default StyleSheet.create({
         justifyContent: 'center'
     },
     buttonFacebook:{
-        width:width*0.8,
+        width:width*0.7,
         alignSelf:'center',
         marginTop:15,
         justifyContent:'center'
-    },
-    buttonFacebookText:{
-        color:'black',
-        fontWeight:'bold'
     },
     buttonNewuser:{
         width:width*0.7,
@@ -78,15 +74,11 @@ export default StyleSheet.create({
         marginTop:15,
         justifyContent:'center'
     },
-    backIcon:{
-        fontSize:10,
-        color:'gray'
-    },
-    orStyling:{
-        color:'white',
-        textAlign:'center',
-        fontSize:20
-    }
+    imageLogo: {
+    flex: 1,
+    aspectRatio: 1.5
+  }
+
 
 
 });

@@ -1,12 +1,12 @@
 import React, { Component } from "react";
+import { Button,Text } from 'native-base';
 import {
     View,
-    Text,
     StyleSheet,
-    Button,
     Dimensions,
     Image
 } from "react-native";
+import styles from './styles/WelcomeScreen';
 const {height, width} = Dimensions.get("window");
 
 class WelcomeScreen extends Component {
@@ -18,8 +18,11 @@ class WelcomeScreen extends Component {
     render() {
         return (
             <View style={styles.container}>
-                <Image source={require('../../assets/bg_screen.png')} style={styles.backgroundImage}></Image>
-                <View style={{ width: width*0.7 }}>
+                <View style={{marginTop:250}}></View>
+                <View>
+                    <Image source={require('../../assets/Dark/logof-14.png')} style={{width:width*0.7,height:height*0.1}}></Image>
+                </View>
+                {/*<View style={{ width: width*0.7 }}>
                     <Button title="Log in"
                         onPress={() => this.props.navigation.navigate('LoginScreen')} />
                 </View>
@@ -28,6 +31,15 @@ class WelcomeScreen extends Component {
                 <View style={{ width: width*0.7 }}>
                     <Button title="Sign Up"
                         onPress={() => this.props.navigation.navigate('SignUpScreen')} />
+                </View>*/}
+                <View style={{marginTop:200}}></View>
+                <View>
+                    <Button bordered dark onPress={() => this.props.navigation.navigate('SignUpScreen')} style={{ width: width*0.7,justifyContent:'center'}}>
+                        <Text>Create your Account</Text>
+                    </Button>
+                </View>
+                <View style={{marginTop:30}}>
+                    <Text onPress={() => this.props.navigation.navigate('LoginScreen')}>You already have a <Text style={{color:'blue'}}>login</Text>?</Text>
                 </View>
             </View>
         );
@@ -35,15 +47,3 @@ class WelcomeScreen extends Component {
 }
 export default WelcomeScreen;
 
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center'
-    },
-    backgroundImage: {
-        position:'absolute',
-        height:height,
-        width:width
-    }
-});

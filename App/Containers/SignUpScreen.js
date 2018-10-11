@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 const {height, width} = Dimensions.get("window");
 import Modal from "react-native-modal";
 import { AsyncStorage } from "react-native";
+import styles from './styles/signupscreen'
 
 import {
     View,
@@ -12,7 +13,7 @@ import {
     ActivityIndicator
 } from 'react-native';
 import MainLogin_backimage from "../Components/mainlogo_backimage";
-import styles from './styles/loginScreen'
+//import styles from './styles/loginScreen'
 import {Input, Item, CheckBox, Body, Button} from "native-base";
 import Icon from "react-native-vector-icons/FontAwesome";
 import {HttpUtils} from '../Services/HttpUtils';
@@ -39,15 +40,23 @@ class SignUpScreen extends Component {
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-    static navigationOptions = {
-        headerTitle:'Sign up',
-        headerStyle: {backgroundColor: '#F7941E'},
-        headerTitleStyle: {fontSize:20,  color: 'white',alignSelf:'center', textAlign: 'center',flex:1},
-        headerRight: (
+    static navigationOptions = ({ navigation }) => {
+        return{
+        headerTitle:'',
+        headerStyle: {backgroundColor: 'white'},
+        headerTitleStyle: {fontSize: height*0.035, color:'black', textAlign: 'center',flex:1},
+        headerLeft: (
+        <TouchableOpacity
+            onPress={() => navigation.goBack()}
+            >
+            <Text style={{marginLeft:14}}><Icon name="chevron-left" size={20} color="#00000073" /></Text>
+        </TouchableOpacity>
+    ),
+        headerRight:(
             <View>
-
             </View>
-        )
+            )
+    }
     };
 
     handleUserInput(val, e ) {
@@ -133,23 +142,26 @@ class SignUpScreen extends Component {
             error = 'password' + formErrors.password;
         }
         return(
-            <View>
-            <View><MainLogin_backimage /></View>
+            <View style={styles.container}>
+            
             <ScrollView>
-            <View>
-                <View style={error.length ? {marginTop:130} : {marginTop: 150}}>
+            <View style={{backgroundColor:'white',marginTop:65,width:width*0.9,height:height*0.7,marginLeft:20}}>
+                <View style={styles.signupheadingview}>
+                    <Text style={styles.signupheadeing}>Sign up</Text>
+                </View>
+                <View style={error.length ? {marginTop:130} : {marginTop: 30}}>
                     {!!error && <Text>{error}</Text>}
                 </View>
                 <View style={styles.inputComponent}>
-                    <Item regular style={{borderRadius:25}}>
-                        <Icon name="user" size={19} color="#900" style={{marginLeft:10,color:'black'}} />
+                    <Item regular>
                         <Input placeholder='Name'
                                value={this.state.name}
                                onChangeText={(text) => this.handleUserInput(text, 'name')}/>
+                        <Icon name="user" size={19} color="#900" style={{marginRight:10,color:'black'}} />       
                     </Item>
                 </View>
                 <View style={styles.inputComponent}>
-                    <Item regular style={{borderRadius:25}}>
+                    <Item regular>
                         <Icon name="phone" size={19} color="#900" style={{marginLeft:10,color:'black'}} />
                         <Text style={{marginLeft:10,color:'gray'}}>+92 |</Text>
                         <Input placeholder='Number'
@@ -158,7 +170,7 @@ class SignUpScreen extends Component {
                     </Item>
                 </View>
                 <View style={styles.inputComponent}>
-                    <Item regular style={{borderRadius:25}}>
+                    <Item regular>
                         <Icon name="user" size={19} color="#900" style={{marginLeft:10,color:'black'}} />
                         <Input name='email' placeholder='Email'
                                value={this.state.email}
@@ -166,7 +178,7 @@ class SignUpScreen extends Component {
                     </Item>
                 </View>
                 <View style={styles.inputComponent}>
-                    <Item regular style={{borderRadius:25}}>
+                    <Item regular>
                         <Icon name="unlock-alt" size={19} color="black" style={{marginLeft:10}} />
                         <Input name='password' placeholder='Password'
                                value={this.state.password}
