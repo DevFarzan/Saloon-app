@@ -18,8 +18,8 @@ class LogoTitle extends React.Component {
   render() {
     return (
       <Image
-        source={require('../../assets/Dark/name.png')}
-        style={{ width: 30, height: 30 }}
+        source={require('../../assets/Dark/logof-14.png')}
+        style={{ width: 120, height: 50 }}
       />
     );
   }
@@ -36,12 +36,17 @@ class AppTabNavigator extends Component {
     static navigationOptions = ({ navigation }) => {
         console.log((navigation, 'navigation'))
         return {
-            headerTitle: <LogoTitle />,
+            headerTitle: <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}><LogoTitle /></View>,
+            headerStyle: {backgroundColor: 'white'},    
             headerLeft: (
                 <View style={{ padding: 10 }}>
                     <Icon name="bars" size={24} onPress={() => navigation.openDrawer()} />
                 </View>
             ),
+            headerRight:(
+                <View>
+                </View>
+            )
 
         }
     }
