@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 const {height, width} = Dimensions.get("window");
 import Modal from "react-native-modal";
-import { AsyncStorage } from "react-native";
+import { AsyncStorage,Image } from "react-native";
 import styles from './styles/signupscreen'
 
 import {
@@ -23,10 +23,10 @@ class SignUpScreen extends Component {
     constructor(props){
         super(props);
         this.state ={
-            name: 'Siddiq',
-            number: '3113826477',
-            email: 'siddiqabbasi0@gmail.com',
-            password: '123456',
+            name: '',
+            number: '',
+            email: '',
+            password: '',
             formErrors: {name: '', number: '' , email: '', password: ''},
             boo:true,
             nameValid: false,
@@ -149,7 +149,7 @@ class SignUpScreen extends Component {
                 <View style={styles.signupheadingview}>
                     <Text style={styles.signupheadeing}>Sign up</Text>
                 </View>
-                <View style={error.length ? {marginTop:130} : {marginTop: 30}}>
+                <View style={error.length ? {marginTop:130} : {marginTop: 20}}>
                     {!!error && <Text>{error}</Text>}
                 </View>
                 <View style={styles.inputComponent}>
@@ -157,54 +157,60 @@ class SignUpScreen extends Component {
                         <Input placeholder='Name'
                                value={this.state.name}
                                onChangeText={(text) => this.handleUserInput(text, 'name')}/>
-                        <Icon name="user" size={19} color="#900" style={{marginRight:10,color:'black'}} />       
+                        <Image source={require('../../assets/Dark/signup/name.png')} style={{width:50,height:50}}></Image>       
                     </Item>
                 </View>
                 <View style={styles.inputComponent}>
                     <Item regular>
-                        <Icon name="phone" size={19} color="#900" style={{marginLeft:10,color:'black'}} />
+                        
                         <Text style={{marginLeft:10,color:'gray'}}>+92 |</Text>
                         <Input placeholder='Number'
                                value={this.state.number}
                                onChangeText={(text) => this.handleUserInput(text, 'number')}/>
+                        <Icon name="phone" size={19} color="#900" style={{marginRight:10,color:'black'}} />
                     </Item>
                 </View>
                 <View style={styles.inputComponent}>
                     <Item regular>
-                        <Icon name="user" size={19} color="#900" style={{marginLeft:10,color:'black'}} />
+                        
                         <Input name='email' placeholder='Email'
                                value={this.state.email}
                                onChangeText={(text) => this.handleUserInput(text, 'email')} />
+                         <Icon name="envelope" size={19} color="#900" style={{marginRight:10,color:'black'}} />      
                     </Item>
                 </View>
                 <View style={styles.inputComponent}>
                     <Item regular>
-                        <Icon name="unlock-alt" size={19} color="black" style={{marginLeft:10}} />
+                        
                         <Input name='password' placeholder='Password'
                                value={this.state.password}
                                secureTextEntry={true}
                                onChangeText={(text) => this.handleUserInput(text, 'password')}/>
+                               <Icon name="unlock-alt" size={19} color="black" style={{marginRight:10}} />
                     </Item>
                 </View>
                 <View>
                 </View>
-                <View style={{flexDirection: 'row', justifyContent: 'center',marginTop:10}}>
+                <View style={{flexDirection: 'row', justifyContent: 'center',marginTop:20}}>
                     <View style={{}}>
                         {this.state.boo && <Icon name="check-square" size={19} color="black" style={{marginLeft:10}} onPress={() => {this.setState({boo: false})}} />}
                         {this.state.boo === false && <CheckBox checked={false} onPress={() => {this.setState({boo: true})}} style={{marginLeft:10}} />}
                     </View>
                     <View>
-                        <Text onPress={() => this.props.navigation.navigate('TermCondition')} style={{marginLeft:30}}>I agree to saloon <Text style={{color:'#27AAE1'}}>Term & condition</Text></Text>
+                        <Text onPress={() => this.props.navigation.navigate('TermCondition')} style={{marginLeft:10}}>I agree to saloon <Text style={{color:'#27AAE1'}}>Term & condition</Text></Text>
                     </View>
                 </View>
                 <View>
-                    <Button warning style={styles.buttonSignup} disabled={!(this.state.formValid && this.state.boo) }>
+                    <Button style={styles.buttonSignup} disabled={!(this.state.formValid && this.state.boo) }>
                         {this.state.loader && <ActivityIndicator size="small" color="#00ff00" />}
                         <Text style={{color:'white'}} onPress={() => this.handleSubmit()}>Sign Up</Text>
                     </Button>
                 </View>
             </View>
             </ScrollView>
+            <View>
+                <Text style={styles.backlogintext} onPress={() => this.props.navigation.navigate('LoginScreen')}>you already have a <Text style={{color:'gray'}}>login?</Text></Text>
+            </View>
             </View>
         )
     }

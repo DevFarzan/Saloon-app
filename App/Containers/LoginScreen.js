@@ -21,7 +21,7 @@ class LoginScreen extends Component {
             formErrors: {email: '', password: ''},
             emailValid: false,
             passwordValid: false,
-            formValid: false,
+            formValid: true,
             loader: false
         }
         this.handleUserInput = this.handleUserInput.bind(this)
@@ -83,27 +83,28 @@ class LoginScreen extends Component {
     }
 
     async handleSubmit(){
-        const { email, password, loader } = this.state;
-        if(!loader) {
-            try {
-                this.setState({loader: true, formValid: false});
-                let obj = {
-                    email,
-                    password
-                };
-                let res = await HttpUtils.post('auth', obj);
-                console.log(res, 'ressssssssssss')
-                if (res.code === 200) {
-                    AsyncStorage.setItem('user', JSON.stringify(res.content))
-                        .then((response) => {
-                            this.setState({loader: false});
-                            this.props.navigation.navigate('DrawerNavigator');
-                        });
-                }
-            } catch {
-                console.log('errorrrrrrrrrrr')
-            }
-        }
+        this.props.navigation.navigate('DrawerNavigator');
+          // const { email, password, loader } = this.state;
+        // if(!loader) {
+        //     try {
+        //         this.setState({loader: true, formValid: false});
+        //         let obj = {
+        //             email,
+        //             password
+        //         };
+        //         let res = await HttpUtils.post('auth', obj);
+        //         console.log(res, 'ressssssssssss')
+        //         if (res.code === 200) {
+        //             AsyncStorage.setItem('user', JSON.stringify(res.content))
+        //                 .then((response) => {
+        //                     this.setState({loader: false});
+        //                     this.props.navigation.navigate('DrawerNavigator');
+        //                 });
+        //         }
+        //     } catch {
+        //         console.log('errorrrrrrrrrrr')
+        //     }
+        // }
     }
 
     render(){
