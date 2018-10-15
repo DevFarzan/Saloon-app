@@ -5,6 +5,7 @@ import {
     StyleSheet,
     Image
 } from "react-native";
+import { Content, Card, CardItem, Body } from "native-base";
 
 import { TabNavigator } from 'react-navigation'
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -13,6 +14,9 @@ import ScreenOne from './TabNavigator/ScreenOne'
 import ScreenTwo from './TabNavigator/ScreenTwo'
 import ScreenThree from './TabNavigator/ScreenThree'
 import ScreenFour from './TabNavigator/ScreenFour'
+
+
+
 
 class LogoTitle extends React.Component {
   render() {
