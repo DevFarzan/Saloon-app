@@ -5,7 +5,7 @@ import {
     StyleSheet
 } from "react-native";
 
-import HomeScreen from './HomeScreen'
+import OurServices from './OurServices'
 import Employees from './Employees'
 import { DrawerNavigator, StackNavigator } from 'react-navigation'
 
@@ -19,7 +19,7 @@ const InnerStackNavigator = new StackNavigator({
 
 const HomeStackNavigator = new StackNavigator({
     HomeNavigator: {
-        screen: HomeScreen
+        screen: OurServices
     },
     EmployeesNav: {
         screen: Employees

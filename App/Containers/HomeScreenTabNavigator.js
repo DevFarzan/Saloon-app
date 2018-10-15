@@ -5,7 +5,7 @@ import {
     StyleSheet,
     Image
 } from "react-native";
-import { Content, Card, CardItem, Body } from "native-base";
+
 
 import { TabNavigator } from 'react-navigation'
 import Icon from 'react-native-vector-icons/FontAwesome';
