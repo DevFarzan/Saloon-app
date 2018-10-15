@@ -100,7 +100,10 @@ const HomeScreenTabNavigator = new TabNavigator({
     tabBarPosition: 'bottom',
     tabBarOptions: {
         showIcon: true,
-        showLabel: false
+        showLabel: false,
+        style: {
+     backgroundColor: 'white',
+  }
     },
 })
 
