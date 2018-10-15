@@ -6,6 +6,7 @@ import {
 } from "react-native";
 
 import HomeScreen from './HomeScreen'
+import Employees from './Employees'
 import { DrawerNavigator, StackNavigator } from 'react-navigation'
 
 import HomeScreenTabNavigator from './HomeScreenTabNavigator'
@@ -19,6 +20,9 @@ const InnerStackNavigator = new StackNavigator({
 const HomeStackNavigator = new StackNavigator({
     HomeNavigator: {
         screen: HomeScreen
+    },
+    EmployeesNav: {
+        screen: Employees
     }
 })
 
