@@ -6,7 +6,7 @@ import {
     Text,
     StyleSheet, Dimensions,Image,ScrollView,TouchableOpacity
 } from 'react-native';
-
+import {HttpUtils} from "../Services/HttpUtils";
 import {Container, Content, Card, CardItem, Body } from "native-base";
 
 //styles
@@ -52,8 +52,32 @@ class HomeScreen extends Component {
 
         }
     }
+    constructor(props){
+        super(props);
+        this.state = {
+            services : [],
+            employees: []
+        }
+    }
+
+    componentDidMount(){
+        this.getServices();
+    }
+
+    async getServices(){
+        let res = await HttpUtils.get('getServices');
+        this.setState({services: res.content});
+        this.getEmployees();
+    }
+
+    async getEmployees(){
+        let res = await HttpUtils.get('getEmployees');
+        this.setState({employees: res.content});
+    }
 
 	render(){
+        const { services } = this.state;
+        console.log(services, 'servicessss')
 		return(
 				<View>
                     <Image source={require('../../assets/Dark/signup/dashboard.jpg')} style={{width:width,height:height,position:'relative'}}></Image>
@@ -71,37 +95,6 @@ class HomeScreen extends Component {
                                         </ScrollView>
                                     </View>
                                     </TouchableOpacity>
-                              </Card>
-                        </Content>
-
-                        <Content padder style={{width:width}}>
-                              <Card style={styles.cardbackground}>
-                                
-                                    <View style={{flex:1}}>
-                                        <Image source={require('../../assets/Dark/signup/services2.jpg')} style={{width:'100%',height:'100%'}}></Image>
-                                    </View>
-                                    <View style={{flex:2}}>
-                                        <ScrollView>
-                                        <Text style={{marginLeft:10,fontWeight:'bold',fontSize:16,color:'black'}}>Treatments</Text>
-                                        <Text style={{marginLeft:10,flex:2,color:'black'}}>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries</Text>
-                                        </ScrollView>
-                                    </View>
-                                
-                              </Card>
-                        </Content>
-
-                        <Content padder style={{width:width}}>
-                              <Card style={styles.cardbackground}>
-                                
-                                    <View style={{flex:1}}>
-                                        <Image source={require('../../assets/Dark/signup/services3.jpg')} style={{width:'100%',height:'100%'}}></Image>
-                                    </View>
-                                    <View style={{flex:2}}>
-                                        <ScrollView>
-                                        <Text style={{marginLeft:10,fontWeight:'bold',fontSize:16,color:'black'}}>Texture</Text>
-                                        <Text style={{marginLeft:10,flex:2,color:'black'}}>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries</Text>
-                                        </ScrollView>
-                                    </View>
                               </Card>
                         </Content>
                     </View>
