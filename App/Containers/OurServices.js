@@ -57,7 +57,8 @@ class HomeScreen extends Component {
         this.state = {
             services : [],
             employees: []
-        }
+        };
+        this.detailService = this.detailService.bind(this);
     }
 
     componentDidMount(){
@@ -75,6 +76,17 @@ class HomeScreen extends Component {
         this.setState({employees: res.content});
     }
 
+    detailService(heading){
+        const { services, employees } = this.state;
+        let arr = [];
+        services.map((elem) => {
+            if(elem.heading === heading){
+                arr = employees.filter((elem) => elem.activity.includes(heading));
+            }
+        })
+        this.props.navigation.navigate('EmployeesNav', arr);
+    }
+
 	render(){
         const { services } = this.state;
         console.log(services, 'servicessss')
@@ -82,21 +94,26 @@ class HomeScreen extends Component {
 				<View>
                     <Image source={require('../../assets/Dark/signup/dashboard.jpg')} style={{width:width,height:height,position:'relative'}}></Image>
                     <View style={{position:'absolute'}}>
-					   <Content padder style={{width:width}}>
+					   {services && services.map((elem) => {
+                        return (
+                        <Content padder style={{width:width}}>
                               <Card >
-                                    <TouchableOpacity style={styles.cardbackground} onPress={()=>this.props.navigation.navigate('EmployeesNav')}>
+                                    <TouchableOpacity style={styles.cardbackground} onPress={()=> this.detailService(elem.heading)}>
                                     <View style={{flex:1}} >
-                                        <Image source={require('../../assets/Dark/signup/services1.jpg')} style={{width:'100%',height:'100%'}}></Image>
+                                        <Image  source={{uri : elem.image}} style={{width:'100%',height:'100%'}}></Image>
                                     </View>
-                                    <View style={{flex:2}} onPress={()=>this.props.navigation.navigate('EmployeesNav')}>
+                                    <View style={{flex:2}}>
                                         <ScrollView>
-                                        <Text style={{marginLeft:10,fontWeight:'bold',fontSize:16,color:'black'}}>Hair</Text>
-                                        <Text style={{marginLeft:10,flex:2,color:'black'}}>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries</Text>
+                                        <Text style={{marginLeft:10,fontWeight:'bold',fontSize:16,color:'black'}}>{elem.heading}</Text>
+                                        <Text style={{marginLeft:10,flex:2,color:'black'}}>{elem.description}</Text>
                                         </ScrollView>
                                     </View>
                                     </TouchableOpacity>
                               </Card>
                         </Content>
+                        )
+                       })
+                   }
                     </View>
 				</View>
 			)
