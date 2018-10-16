@@ -66,7 +66,7 @@ class HomeScreen extends Component {
                                     </View>
                                     <View style={{flex:2}} onPress={()=>this.props.navigation.navigate('EmployeesNav')}>
                                         <ScrollView>
-                                        <Text style={{marginLeft:10,fontWeight:'bold',fontSize:16,color:'black'}}>Styling</Text>
+                                        <Text style={{marginLeft:10,fontWeight:'bold',fontSize:16,color:'black'}}>Hair</Text>
                                         <Text style={{marginLeft:10,flex:2,color:'black'}}>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries</Text>
                                         </ScrollView>
                                     </View>
