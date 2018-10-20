@@ -5,7 +5,7 @@ import { createStackNavigator } from 'react-navigation';
 import getSlideFromRightTransition from 'react-navigation-slide-from-right-transition';
 import WelcomeScreen from './App/Containers/WelcomeScreen'
 import LoginScreen from './App/Containers/LoginScreen';
-// import HomeScreen from './App/Containers/HomeScreen';
+import BookingScreen from './App/Containers/Booking';
 import SignUpScreen from './App/Containers/SignUpScreen';
 import DrawerNavigator from './App/Containers/DrawerNavigator'
 import TermCondition from './App/Containers/termCondition';
@@ -20,6 +20,7 @@ export default class App extends Component {
 }
 
 const AppStackNavigator = createStackNavigator({
+    BookingScreen: { screen: BookingScreen},
     WelcomeScreen: { screen: WelcomeScreen },
     LoginScreen: { screen: LoginScreen },
     SignUpScreen: { screen: SignUpScreen },

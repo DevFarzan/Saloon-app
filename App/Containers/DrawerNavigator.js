@@ -5,7 +5,9 @@ import {
     StyleSheet
 } from "react-native";
 
-import OurServices from './OurServices'
+import OurServices from './OurServices';
+import Profile from './Profile';
+import Booking from './Booking';
 import Employees from './Employees'
 import { DrawerNavigator, StackNavigator } from 'react-navigation'
 
@@ -23,6 +25,12 @@ const HomeStackNavigator = new StackNavigator({
     },
     EmployeesNav: {
         screen: Employees
+    },
+    ProfileNav: {
+        screen: Profile
+    },
+    BookingNav: {
+        screen: Booking
     }
 })
 

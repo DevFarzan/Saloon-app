@@ -28,18 +28,18 @@ class LogoTitle extends React.Component {
 }
 
 class Employees extends Component {
+    constructor(props){
+        super(props);
+        this.state = {
+            data : []
+        };
+    }
 
     componentDidMount = () =>{
         const data = this.props.navigation.state.params;
-        alert(data)
-        this.getEmployees()
+        console.log(data, 'dataaaaaaaaaaa')
+        this.setState({data})
     }
-
-    async getEmployees(){
-        let res = await HttpUtils.get('getEmployees');
-        console.log(res, 'responseeeeeeeee');
-    }
-
 
     static navigationOptions = ({ navigation }) => {
         console.log((navigation, 'navigation'))
@@ -53,28 +53,47 @@ class Employees extends Component {
         }
     }
 
-
     render() {
+        const { data } = this.state;
+
         return (
             <View>
             <Image source={require('../../assets/Dark/signup/dashboard.jpg')} style={{width:width,height:height,position:'relative'}}></Image>
                 <View style={{position:'absolute'}}>
-                       <Content padder style={{width:width}}>
-                              <Card style={styles.cardbackground}>
-                                    <View style={{flex:1}}>
-                                        <Image source={require('../../assets/Dark/signup/services1.jpg')} style={{width:'80%',height:'70%',borderRadius: 64,marginTop:20,marginLeft:20}}></Image>
+                    <Content padder style={{width:width, marginBottom: 50}}>
+                        <Card style={styles.cardbackground}>
+                            <View style={{flex:1}}>
+                                <Image source={require('../../assets/Dark/signup/services1.jpg')} style={{width:'80%',height:'70%',borderRadius: 64,marginTop:20,marginLeft:20}}></Image>
 
-                                    </View>
-                                    <View style={{flex:2}} onPress={()=>this.props.navigation.navigate('EmployeesNav')}>
-                                        <ScrollView>
-                                        
-                                        </ScrollView>
-                                    </View>
-                                    
-                                    <Text></Text>
-                              </Card>
-                        </Content>
-                </View>        
+                            </View>
+                            <View style={{flex: 2, flexDirection: 'column'}}>
+                                <View style={{flex: 1}}>
+                                <Button
+                                  style={{fontSize: 16, color: 'green'}}
+                                  styleDisabled={{color: 'red'}}
+                                  onPress={() => this.props.navigation.navigate('ProfileNav')}
+                                  title="Show Profile"
+                                >
+                                  Show Profile
+                                </Button>
+                                </View>
+                                <View style={{flex: 1}}>
+                                <Button
+                                  style={{fontSize: 16, color: 'green'}}
+                                  styleDisabled={{color: 'red'}}
+                                  onPress={() => this.props.navigation.navigate('BookingNav')}
+                                  title="Book Now"
+                                >
+                                  Book Now
+                                </Button>
+                                </View>
+                            </View>
+                            
+                            
+                            <Text></Text>
+                        </Card>
+                    </Content>
+            </View>
             </View>
         );
     }
