@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 const {height, width} = Dimensions.get("window");
 import Modal from "react-native-modal";
 import { AsyncStorage,Image } from "react-native";
-import styles from './styles/signupscreen'
+import styles from './styles/signupscreen';
 
 import {
     View,

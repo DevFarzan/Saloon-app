@@ -8,7 +8,8 @@ import {
 import OurServices from './OurServices';
 import Profile from './Profile';
 import Booking from './Booking';
-import Employees from './Employees'
+import Employees from './Employees';
+import YourBooking from './yourbooking';
 import { DrawerNavigator, StackNavigator } from 'react-navigation'
 
 import HomeScreenTabNavigator from './HomeScreenTabNavigator'
@@ -31,11 +32,19 @@ const HomeStackNavigator = new StackNavigator({
     },
     BookingNav: {
         screen: Booking
+    }/*,
+    Your*/
+})
+
+const YourBookingInnerStackNavigator = new StackNavigator({
+    ForBooking: {
+        screen: YourBooking
     }
 })
 
 const AppDrawerNavigator = new DrawerNavigator({
     'About Us': { screen: InnerStackNavigator },
+    'Your Booking':{screen:YourBookingInnerStackNavigator},
     'Our Services': { screen: HomeStackNavigator },
     'Online Booking': { screen: InnerStackNavigator },
     'Gallery': { screen: InnerStackNavigator },
