@@ -112,7 +112,7 @@ class Employees extends Component {
                                         fullStarColor={'yellow'}
                                         rating={this.state.starCount}
                                         selectedStar={(rating) => this.onStarRatingPress(rating)}
-                                  />
+                                    />
                                 </View>
                                 <View style={{flexDirection:'row'}}>
                                     <View style={{marginTop:10,width:width*0.3,flexDirection:'column',alignItems:'flex-start'}}>

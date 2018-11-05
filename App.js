@@ -23,7 +23,7 @@ export default class App extends Component {
 const AppStackNavigator = createStackNavigator({
     // ProfileScreen: {screen: ProfileScreen},
     // EmployeesScreen: { screen: EmployeesScreen},
-    YourBookingScreen:{screen:YourBookingScreen},
+    //YourBookingScreen:{screen:YourBookingScreen},
     WelcomeScreen: { screen: WelcomeScreen },
     LoginScreen: { screen: LoginScreen },
     SignUpScreen: { screen: SignUpScreen },
@@ -34,7 +34,6 @@ const AppStackNavigator = createStackNavigator({
             header: null
         }
     }
-
 },{
     navigationOptions: {
         gesturesEnabled: false

@@ -31,7 +31,8 @@ class Tab1 extends React.Component {
 	render(){
 		return(
 				<View style={{justifyContent:'center',alignItems:'center',height:'90%',width:width}}>
-					<Image source={require('../../assets/schedule.png')} style={{width:100,height:100}}></Image>
+					<Image source={require('../../assets/schedule.png')} style={{width:200,height:200}}></Image>
+					<Text style={{fontSize:20}}>There is no booking yet!</Text>
 				</View>
 			)
 	}
@@ -108,7 +109,6 @@ Yourbooking.navigationOptions = ({ navigation }) => ({
     headerLeft: (
                 <View style={{ padding: 10 }}>
                     <Icon name="bars" size={24} onPress={() => navigation.openDrawer()} />
-
                 </View>
             ), 
     headerRight:(
