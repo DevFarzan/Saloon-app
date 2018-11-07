@@ -72,25 +72,24 @@ class EmployeesHomeScreen extends Component{
 	render(){
 		return(
 		<Container>	
-        <Header style={{backgroundColor:'white'}}>
-          <Left style={{flex: 1}}>
-          	<View></View>
-          </Left>
-          <Body style={{flex: 2}}>
-            <Title style={{color:'black',alignSelf:'center'}}>Bookings</Title>
-          </Body>
-          <Right style={{flex:1}}>
-          	<View></View>
-          </Right>
-        </Header>
-     	
+	        <Header style={{backgroundColor:'white'}}>
+	          <Left style={{flex: 1}}>
+	          	<View></View>
+	          </Left>
+	          <Body style={{flex: 2}}>
+	            <Title style={{color:'black',alignSelf:'center'}}>Bookings</Title>
+	          </Body>
+	          <Right style={{flex:1}}>
+	          	<View></View>
+	          </Right>
+	        </Header>
 			<Tabs>
-  				<Tab heading="SCHEDULED">
-    				<Tab1/>
-  				</Tab>
-  				<Tab heading="HISTORY">
-   			 		<Tab2/>
-  				</Tab>
+				<Tab heading="SCHEDULED">
+				<Tab1/>
+				</Tab>
+				<Tab heading="HISTORY">
+			 		<Tab2/>
+				</Tab>
 			</Tabs>
 		</Container>
 			)
