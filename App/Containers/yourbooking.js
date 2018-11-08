@@ -81,7 +81,20 @@ class Tab3 extends React.Component {
 }
 
 class Yourbooking extends React.Component {
-	
+	constructor(props){
+        super(props);
+        this.state = {
+
+        }
+    }
+
+    componentDidMount = () =>{
+    	this.getAllBooking();
+    }
+
+    getAllBooking(){
+    	
+    }
 
 	render(){
 		return(

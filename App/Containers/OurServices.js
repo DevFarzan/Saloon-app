@@ -30,13 +30,7 @@ class LogoTitle extends React.Component {
 
 class HomeScreen extends Component {
 
-    // static navigationOptions = {
-    //     headerTitle:'Dashboard',
-    //     headerStyle: {backgroundColor: '#F7941E'},
-    //     headerTitleStyle: {fontSize: height*0.035 ,  color: 'white', textAlign: 'center', alignSelf: "center", flex: 1},
-    // }
     static navigationOptions = ({ navigation }) => {
-        console.log((navigation, 'navigation'))
         return {
             headerTitle: <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}><LogoTitle /></View>,
             headerStyle: {backgroundColor: 'white'},    
@@ -89,29 +83,28 @@ class HomeScreen extends Component {
 
 	render(){
         const { services } = this.state;
-        console.log(services, 'servicessss')
 		return(
 				<View>
                     <Image source={require('../../assets/Dark/signup/dashboard.jpg')} style={{width:width,height:height,position:'relative'}}></Image>
-                    <View style={{position:'absolute'}}>
-					   {services && services.map((elem) => {
-                        return (
-                        <Content padder style={{width:width}}>
-                              <Card >
-                                    <TouchableOpacity style={styles.cardbackground} onPress={()=> this.detailService(elem.heading)}>
-                                    <View style={{flex:1}} >
-                                        <Image  source={{uri : elem.image}} style={{width:'100%',height:'100%'}}></Image>
-                                    </View>
-                                    <View style={{flex:2}}>
-                                        <ScrollView>
-                                        <Text style={{marginLeft:10,fontWeight:'bold',fontSize:16,color:'black'}}>{elem.heading}</Text>
-                                        <Text style={{marginLeft:10,flex:2,color:'black'}}>{elem.description}</Text>
-                                        </ScrollView>
-                                    </View>
-                                    </TouchableOpacity>
-                              </Card>
-                        </Content>
-                        )
+                    <View style={{position:'absolute', backgroundColor: 'rgba(0, 0, 0, 0.9)'}}>
+					    {services && services.map((elem) => {
+                            return (
+                                <Content padder style={{width:width}}>
+                                    <Card >
+                                        <TouchableOpacity style={styles.cardbackground} onPress={()=> this.detailService(elem.heading)}>
+                                        <View style={{flex:1}} >
+                                            <Image  source={{uri : elem.image}} style={{width:'100%',height:'100%'}}></Image>
+                                        </View>
+                                        <View style={{flex:2}}>
+                                            <ScrollView>
+                                            <Text style={{marginLeft:10,fontWeight:'bold',fontSize:16,color:'black'}}>{elem.heading}</Text>
+                                            <Text style={{marginLeft:10,flex:2,color:'black'}}>{elem.description}</Text>
+                                            </ScrollView>
+                                        </View>
+                                        </TouchableOpacity>
+                                    </Card>
+                                </Content>
+                            )
                        })
                    }
                     </View>

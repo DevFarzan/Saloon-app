@@ -32,8 +32,10 @@ const HomeStackNavigator = new StackNavigator({
     },
     BookingNav: {
         screen: Booking
-    }/*,
-    Your*/
+    },
+    YourBooking: {
+        screen: YourBooking
+    }
 })
 
 const YourBookingInnerStackNavigator = new StackNavigator({

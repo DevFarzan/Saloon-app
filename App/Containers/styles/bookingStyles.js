@@ -41,7 +41,7 @@ export default StyleSheet.create({
     	backgroundColor: 'black'
     },
     scheduleView: {
-    	flex: 1, 
+    	flex: 0.8, 
     	width: width*0.9, 
     	borderColor: 'white', 
     	borderWidth: 1, 
@@ -67,20 +67,34 @@ export default StyleSheet.create({
     	width: width*0.8
     },
     itemContainer: {
-    width: size,
-    height: height*0.07,
-    justifyContent: 'center', 
-    // alignItems: 'center'
-    paddingTop: 5,
-    paddingBottom: 5,
-    paddingLeft: 15
-  },
-  item: {
-  	 flex: 1,
-    margin: 3,
-    color: 'white',
-    fontSize: 16,
-    // backgroundColor: 'rgba(0, 0, 0, 0.9)',
-    // marginBottom: 70
-  }
+        width: size,
+        height: height*0.07,
+        justifyContent: 'center', 
+        // alignItems: 'center'
+        paddingTop: 5,
+        paddingBottom: 5,
+        paddingLeft: 15
+    },
+    selectedItemContainer: {
+        width: size,
+        height: height*0.07,
+        justifyContent: 'center', 
+        borderRadius: 20,
+        paddingTop: 5,
+        paddingBottom: 5,
+        backgroundColor: 'blue',
+        paddingLeft: 15
+    },
+    item: {
+      	flex: 1,
+        margin: 3,
+        color: 'white',
+        fontSize: 16,
+    },
+    selectedItem: {
+        flex: 1,
+        margin: 3,
+        color: 'gray',
+        fontSize: 16,
+    }
 })

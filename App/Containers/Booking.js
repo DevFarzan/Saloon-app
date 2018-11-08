@@ -7,7 +7,8 @@ import {
     Image,
     TouchableOpacity,
     Dimensions,
-    FlatList
+    FlatList,
+    AsyncStorage
 } from "react-native";
 const {height, width} = Dimensions.get("window");
 import styles from './styles/bookingStyles';
@@ -16,33 +17,18 @@ import RNPickerSelect from 'react-native-picker-select';
 import { Calendar } from 'react-native-calendars';
 import ModalView from '../Components/ModalView';
 import moment from 'moment';
+import _ from 'underscore';
+import {HttpUtils} from '../Services/HttpUtils';
 
 const _format = 'YYYY-MM-DD';
 const _today = moment().format(_format);
 const _maxDate = moment().add(15, 'days').format(_format);
-const data = [
-  {id: '1', value: '11:00 AM', },
-  {id: '2', value: '11:30 AM'},
-  {id: '3', value: '12:00 PM'},
-  {id: '4', value: '12:30 PM'},
-  {id: '5', value: '1:00 PM'},
-  {id: '6', value: '1:30 PM'},
-  {id: '7', value: '2:00 PM'},
-  {id: '8', value: '2:30 PM'},
-  {id: '9', value: '3:00 PM'},
-  {id: '10', value: '3:30 PM'},
-  {id: '11', value: '4:00 PM'},
-  {id: '12', value: '4:30 PM'},
-  {id: '13', value: '5:00 PM'},
-  {id: '14', value: '5:30 PM'},
-  {id: '15', value: '6:00 PM'},
-  {id: '16', value: '6:30 PM'},
-  {id: '17', value: '7:00 PM'},
-  {id: '18', value: '7:30 PM'},
-  {id: '19', value: '8:00 PM'},
-  {id: '20', value: '8:30 PM'},
-  {id: '21', value: '9:00 PM'},
-];
+const initialState = {
+          [_today]: {disabled: true, disableTouchEvent: true},
+          '2018-11-16': {disabled: true, disableTouchEvent: true},
+          '2018-11-12': {disabled: true, disableTouchEvent: true},
+          '2018-11-19': {disabled: true, disableTouchEvent: true},
+      }
 
 class LogoTitle extends React.Component {
     render() {
@@ -59,27 +45,127 @@ class Booking extends Component {
     constructor(props){
         super(props);
         this.state = {
+            name: '',
+            email: '',
+            phoneNo: '',
             yesOrNo: ['Yes', 'No'],
             yesNoValue: '',
             modal: false,
             modal2: false,
-            selectedDate: '',
-            _markedDates: {
-                        '2018-10-23': {disabled: true},
-                        '2018-10-08': {textColor: '#666'},
-                        '2018-10-09': {textColor: '#666'},
-                        // '2018-10-14': {startingDay: true, color: 'blue', endingDay: true},
-                        '2018-10-21': {startingDay: true, color: 'gray', textColor: 'black', disabled: true},
-                        '2018-10-22': {endingDay: true, color: 'gray'},
-                        '2018-10-24': {startingDay: true, color: 'gray'},
-                        '2018-10-25': {color: 'gray'},
-                        '2018-10-26': {endingDay: true, color: 'gray'}
-                    }
+            _markedDates: initialState,
+            data : [  
+                {id: '1', value: '11:00 AM', available: true},
+                {id: '2', value: '11:30 AM', available: false},
+                {id: '3', value: '12:00 PM', available: true},
+                {id: '4', value: '12:30 PM', available: false},
+                {id: '5', value: '1:00 PM', available: true},
+                {id: '6', value: '1:30 PM', available: true},
+                {id: '7', value: '2:00 PM', available: true},
+                {id: '8', value: '2:30 PM', available: true},
+                {id: '9', value: '3:00 PM', available: false},
+                {id: '10', value: '3:30 PM', available: false},
+                {id: '11', value: '4:00 PM', available: true},
+                {id: '12', value: '4:30 PM', available: true},
+                {id: '13', value: '5:00 PM', available: true},
+                {id: '14', value: '5:30 PM', available: false},
+                {id: '15', value: '6:00 PM', available: true},
+                {id: '16', value: '6:30 PM', available: true},
+                {id: '17', value: '7:00 PM', available: true},
+                {id: '18', value: '7:30 PM', available: false},
+                {id: '19', value: '8:00 PM', available: true},
+                {id: '20', value: '8:30 PM', available: false},
+                {id: '21', value: '9:00 PM', available: true},
+            ],
+            tempSelected: {},
+            tempDate: {},
+            subButton : false
         }
         this.onDayPress = this.onDayPress.bind(this);
+        this.submitJob = this.submitJob.bind(this);
+    }
+
+    componentDidMount = () =>{
+        const emp_id = this.props.navigation.state.params;
+        this.getData(emp_id)
+        this.setState({emp_id})
+    }
+
+    getData(emp_id){
+        AsyncStorage.getItem('user')
+        .then((response) => {
+            let obj = JSON.parse(response);
+            this.setState({
+                name: obj.name,
+                email:obj.email,
+                phoneNo: obj.number,
+                user_id: obj._id,
+                emp_id
+            })
+        })
+    }
+
+    onDatePress(val){
+        let { tempSelected, data } = this.state;
+        if(val.available){
+            if(Object.keys(tempSelected).length > 0){
+                data = data.map((elem) => {
+                    if(elem.id === tempSelected.id){
+                        return {
+                            id: elem.id,
+                            value: elem.value,
+                            available: true,
+                            selected: false
+                        }
+                    }
+                    if(elem.id === val.id){
+                        return {
+                            id: elem.id,
+                            value: elem.value,
+                            available: false,
+                            selected: true
+                        }
+                    }
+                    return elem
+                })
+            }else{
+                data = data.map((elem) => {
+                    if(elem.id === val.id){
+                        return {
+                            id: elem.id,
+                            value: elem.value,
+                            available: false,
+                            selected: true
+                        }
+                    }
+                    return elem
+                })
+            }
+            tempSelected = {
+                id: val.id,
+                value: val.value,
+                available: false,
+            }
+            this.setState({tempSelected, data, subButton: true})
+        }else {
+            if(tempSelected.id === val.id){
+                data = data.map((elem) => {
+                if(elem.id === val.id){
+                    return {
+                        id: elem.id,
+                        value: elem.value,
+                        available: true,
+                        selected: false
+                    }
+                }
+                return elem
+            }) 
+            this.setState({data, tempSelected: {}, subButton: false})             
+            }
+        }
     }
 
     openTimer(){
+        const { data, subButton } = this.state;
         const numColumns = 3;
         return(
             <View style={styles.modalMain}>
@@ -87,10 +173,12 @@ class Booking extends Component {
                 <View style={{width: width*0.8, flex: 4, flexDirection: 'column'}}>
                     <View style={{width: width*0.8, flex: 0.8, backgroundColor: 'white', flexDirection: 'row'}}>
                         <View style={{width: width*0.1}}></View>
-                        <View style={{width: width*0.6}}></View>
+                        <View style={{width: width*0.6, justifyContent: 'center', alignItems: 'center'}}>
+                            <Text style={{fontSize: 28}}>Select Time</Text>
+                        </View>
                         <View style={{width: width*0.1, justifyContent: 'center', alignItems: 'center'}}>
                             <TouchableOpacity onPress={this.closeModal.bind(this)}>
-                                <Text style={{fontSize: 30, color: 'black'}}>X</Text>
+                                <Text style={{fontSize: 22, color: 'black'}}>X</Text>
                             </TouchableOpacity>
                         </View>
                     </View>
@@ -98,50 +186,72 @@ class Booking extends Component {
                         <FlatList 
                             data={data}
                             renderItem={({item}) => (
-                                <View style={styles.itemContainer}>
-                                    <Text style={styles.item}>{item.value}</Text>
-                                </View>
+                                <TouchableOpacity style={item.selected && item.selected ? styles.selectedItemContainer : styles.itemContainer} onPress={this.onDatePress.bind(this, item)}>
+                                    <Text style={!item.available ? styles.selectedItem : styles.item}>{item.value}</Text>
+                                </TouchableOpacity>
                             )}
                             keyExtractor={item => item.id}
                             numColumns={numColumns} />
                         </View>
                 </View>
-                    <View style={{width: width, flex: 1}}></View>
-                
+                    <TouchableOpacity style={{width: width*0.6, flex: 1, justifyContent: 'center'}}>
+                        <Button light disabled={!subButton} title="Submit" style={{width: width*0.6, alignSelf: 'center'}} onPress={() => {this.submitJob()}}></Button>
+                    </TouchableOpacity>
             </View>
         )
     }
 
+    async submitJob(){
+        const { name, email, phoneNo, tempDate, tempSelected, emp_id, user_id } = this.state;
+        if(Object.keys(tempSelected).length > 0){
+            let obj = {
+                emp_id,
+                user_id,
+                name,
+                email,
+                number: phoneNo,
+                date: Object.keys(tempDate)[0],
+                time: tempSelected,
+                obj_id: ''
+            }
+            let res = await HttpUtils.post('booking', obj);
+            if(res.code === 200){
+                this.closeModal();
+                this.props.navigation.navigate('YourBooking');
+            }
+        }
+    }
+
     openCalender(){
-        const { selectedDate, _markedDates } = this.state;
+        const { _markedDates } = this.state;
         return (
             <View style={styles.modalMain}>
                 <Calendar 
                     onDayPress={this.onDayPress}
-                    current={'2018-10-16'}
                     minDate={_today}
                     maxDate={_maxDate}
                     firstDay={1}
+                    hideDayNames={false}
                     markingType={'period'}
                     markedDates={_markedDates}
-                    theme={{
-                        calendarBackground: 'white',
-                        textSectionTitleColor: 'white',
-                        dayTextColor: 'black',
-                        todayTextColor: '#333248',
-                        selectedDayTextColor: '#333248',
-                        monthTextColor: '#333248',
-                        selectedDayBackgroundColor: 'black',
-                        arrowColor: '#333248',
-                        // textDisabledColor: 'gray',
-                        'stylesheet.calendar.header': {
-                          week: {
-                            marginTop: 5,
-                            flexDirection: 'row',
-                            justifyContent: 'space-between'
-                          }
-                        }
-                      }}
+                    // theme={{
+                    //     calendarBackground: 'white',
+                    //     textSectionTitleColor: 'white',
+                    //     dayTextColor: 'black',
+                    //     todayTextColor: '#333248',
+                    //     selectedDayTextColor: '#333248',
+                    //     monthTextColor: '#333248',
+                    //     selectedDayBackgroundColor: 'black',
+                    //     arrowColor: '#333248',
+                    //     // textDisabledColor: 'gray',
+                    //     'stylesheet.calendar.header': {
+                    //       week: {
+                    //         marginTop: 5,
+                    //         flexDirection: 'row',
+                    //         justifyContent: 'space-between'
+                    //       }
+                    //     }
+                    //   }}
                     style={styles.calendarStyle}/>
                 <TouchableOpacity onPress={this.closeModal.bind(this)}>
                     <Text style={{fontSize: 30, color: 'white'}}>X</Text>
@@ -155,51 +265,67 @@ class Booking extends Component {
     }
 
     onDayPress(day) {
-        const { _markedDates } = this.state;
-        console.log(_markedDates, 'marked Datessssssssss')
+        let { _markedDates, tempDate } = this.state;
         const _selectedDay = moment(day.dateString).format(_format);
+        let str = Object.keys(tempDate)[0];
+        if(_markedDates[_selectedDay] === undefined || _markedDates[_selectedDay].disable === false || _markedDates[_selectedDay].marked === false){
+            if(Object.keys(tempDate).length > 0 && !Object.keys(_markedDates).includes(_selectedDay)){
+                _markedDates = _.omit(_markedDates, str)
+                this.sortingDates(_markedDates, _selectedDay)
+            }else {
+                this.sortingDates(_markedDates, _selectedDay)
+            }
+        }  
+    }
+
+    sortingDates(_markedDates, _selectedDay){
+        let marked = true;
+        if (_markedDates[_selectedDay]) {
+            marked = !_markedDates[_selectedDay].marked;
+        }
       
-          let marked = true;
-          if (this.state._markedDates[_selectedDay]) {
-            // Already in marked dates, so reverse current marked state
-            marked = !this.state._markedDates[_selectedDay].marked;
-          }
-          
-          // Create a new object using object property spread since it should be immutable
-          // Reading: https://davidwalsh.name/merge-objects
-          const updatedMarkedDates = {...this.state._markedDates, ...{ [_selectedDay]: { marked } } }
-          console.log(updatedMarkedDates, '44444444444444')
-          
-          // Triggers component to render again, picking up the new state
-          this.closeModal();
-          this.setState({ _markedDates: updatedMarkedDates, modal2:true });
+        const updatedMarkedDates = marked ? {..._markedDates, ...{ [_selectedDay]: { marked, startingDay: true, color: 'blue', endingDay: true, disable: false } } } : {..._markedDates, ...{ [_selectedDay]: { marked, disable: false } } }
+        let tempDate = marked ? { [_selectedDay]: { marked, startingDay: true, color: 'blue', endingDay: true, disable: false } } : { [_selectedDay]: { marked, disable: false } };
+        if(marked){
+            this.closeModal();
+            this.setState({ modal2: true });
+        }
+        this.setState({ _markedDates: updatedMarkedDates, tempDate })
     }
 
     render() {
-        const { modal, modal2 } = this.state;
+        const { modal, modal2, _markedDates } = this.state;
+
         return (
             <View>
             <Image source={require('../../assets/Dark/signup/dashboard.jpg')} style={styles.mainImage}></Image>
             <View style={styles.overlay}>
                 <View style={styles.inputView}>
                     <Input name='email' placeholder='Name' placeholderTextColor='white'
-                           value=''
-                           underlineColorAndroid={'white'}
-                            style={styles.inputStyle} />
+                        value={this.state.name}
+                        editable={false}
+                        underlineColorAndroid={'white'}
+                        style={styles.inputStyle}
+                        onChangeText={(text) => {this.setState({name: text})}} />
                 </View>
                 <View  style={styles.inputView}>            
                     <Input name='email' placeholder='Phone Number' placeholderTextColor='white'
-                           value=''
-                           underlineColorAndroid={'white'}
-                            style={styles.inputStyle} />
+                        value={this.state.phoneNo}
+                        editable={false}
+                        keyboardType = 'numeric'
+                        underlineColorAndroid={'white'}
+                        style={styles.inputStyle}
+                        onChangeText={(text) => {this.setState({phoneNo: text})}} />
                 </View>
                 <View style={styles.inputView}>    
                     <Input name='email' placeholder='Email' placeholderTextColor='white'
-                           value=''
-                           underlineColorAndroid={'white'}
-                            style={styles.inputStyle} />
+                        value={this.state.email}
+                        editable={false}
+                        underlineColorAndroid={'white'}
+                        style={styles.inputStyle}
+                        onChangeText={(text) => {this.setState({email: text})}} />
                 </View>
-                <View style={styles.pickerView}>
+                {/*<View style={styles.pickerView}>
                     <RNPickerSelect
                         placeholder={{
                             label: '- CHOOSE SERVICE -',
@@ -234,10 +360,10 @@ class Booking extends Component {
                         hideIcon={true}
                         style={pickerStyle}
                     />
-                </View>
+                </View>*/}
                 <TouchableOpacity style={styles.scheduleView} onPress={() => {this.setState({modal: true})}}>
                     <View>
-                        <Text style={styles.scheduleViewText}>- Schedule -</Text>
+                        <Text style={styles.scheduleViewText}>- Select Date & Time -</Text>
                     </View>  
                 </TouchableOpacity>   
                 {this.state.modal && <View>

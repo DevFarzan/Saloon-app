@@ -114,7 +114,8 @@ class SignUpScreen extends Component {
                     name,
                     number: 0 + number,
                     email,
-                    password
+                    password,
+                    role: 'user'
                 };
                 let res = await HttpUtils.post('users', obj);
                 if (res.code === 200) {

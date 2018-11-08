@@ -45,12 +45,10 @@ class Employees extends Component {
   }
     componentDidMount = () =>{
         const data = this.props.navigation.state.params;
-        console.log(data, 'dataaaaaaaaaaa')
         this.setState({data})
     }
 
     static navigationOptions = ({ navigation }) => {
-        console.log((navigation, 'navigation'))
         return {
             headerTitle: <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}><LogoTitle /></View>,
             headerStyle: {backgroundColor: 'white'},  
@@ -66,98 +64,48 @@ class Employees extends Component {
         const uri = "https://facebook.github.io/react-native/docs/assets/favicon.png";
         return (
             <View>
-            <Image source={require('../../assets/Dark/signup/dashboard.jpg')} style={{width:width,height:height,position:'relative'}}></Image>
-                <View style={{position:'absolute'}}>
+                <Image source={require('../../assets/Dark/signup/dashboard.jpg')} style={{width:width,height:height,position:'relative'}}></Image>
+                <View style={{position:'absolute', backgroundColor: 'rgba(0, 0, 0, 0.9)'}}>
                     <Content padder style={{width:width, marginBottom: 50}}>
-                        <Card style={styles.cardbackground}>
-                            <View style={{flex:1,justifyContent:'center',alignItems:'center'}}>
-                                <Thumbnail large source={{uri: uri}} />
-                            </View>
-                            <View style={{flex:2,flexDirection: 'column'}}>
-                                <Text style={{marginTop:30,fontSize:22,color:'white'}}>Zainab Ansari</Text>
-                                <Text>Hair Style,Threatning,Styling...</Text>
-                                <View style={{width:20}}>
-                                    <StarRating
-                                        disabled={false}
-                                        maxStars={5}
-                                        starSize={12}
-                                        fullStarColor={'yellow'}
-                                        rating={this.state.starCount}
-                                        selectedStar={(rating) => this.onStarRatingPress(rating)}
-                                  />
-                                </View>
-                                <View style={{flexDirection:'row'}}>
-                                    <View style={{marginTop:5,flexDirection:'column',marginRight:10}}>
-                                        <Button title="Show Profile" onPress={() => this.props.navigation.navigate('ProfileNav')}></Button>
+                        {data && data.map((elem) => {
+                            let str = elem.activity.join()
+                            return (
+                                <Card style={styles.cardbackground}>
+                                    <View style={{flex:1,justifyContent:'center',alignItems:'center'}}>
+                                        <Thumbnail large source={{uri: elem.image}} />
                                     </View>
+                                    <View style={{flex:2,flexDirection: 'column'}}>
+                                        <Text style={{marginTop:10,fontSize:22,color:'white'}}>{elem.name}</Text>
+                                        <Text>{str}</Text>
+                                        <View style={{width:20}}>
+                                            <StarRating
+                                                disabled={false}
+                                                maxStars={5}
+                                                starSize={12}
+                                                fullStarColor={'yellow'}
+                                                rating={elem.rating}
+                                          />
+                                        </View>
+                                        <View style={{flexDirection:'row'}}>
+                                            <View style={{marginTop:5,flexDirection:'column',marginRight:10}}>
+                                                <Button title="Show Profile" onPress={() => this.props.navigation.navigate('ProfileNav', elem)}></Button>
+                                            </View>
 
-                                    <View style={{marginTop:5,flexDirection:'column'}}>
-                                        <Button title="Booking Now" onPress={() => this.props.navigation.navigate('BookingNav')}></Button>
+                                            <View style={{marginTop:5,flexDirection:'column'}}>
+                                                <Button title="Booking Now" onPress={() => this.props.navigation.navigate('BookingNav', elem._id)}></Button>
+                                            </View>
+                                        </View>
                                     </View>
-                                </View>
-                            </View>
-                        </Card>
-                        <Card style={styles.cardbackground}>
-                            <View style={{flex:1,justifyContent:'center',alignItems:'center'}}>
-                                <Thumbnail large source={{uri: uri}} />
-                            </View>
-                            <View style={{flex:2,flexDirection: 'column'}}>
-                                <Text style={{marginTop:30,fontSize:22,color:'white'}}>Zainab Ansari</Text>
-                                <Text>Hair Style,Threatning,Styling...</Text>
-                                <View style={{width:20}}>
-                                    <StarRating
-                                        disabled={false}
-                                        maxStars={5}
-                                        starSize={12}
-                                        fullStarColor={'yellow'}
-                                        rating={this.state.starCount}
-                                        selectedStar={(rating) => this.onStarRatingPress(rating)}
-                                    />
-                                </View>
-                                <View style={{flexDirection:'row'}}>
-                                    <View style={{marginTop:10,width:width*0.3,flexDirection:'column',alignItems:'flex-start'}}>
-                                        <Button title="Show Profile" onPress={() => this.props.navigation.navigate('ProfileNav')}></Button>
-                                    </View>
-
-                                    <View style={{marginTop:10,width:width*0.3,flexDirection:'column'}}>
-                                        <Button title="Booking Now" onPress={() => this.props.navigation.navigate('BookingNav')}></Button>
-                                    </View>
-                                </View>
-                            </View>
-                        </Card>
-                        <Card style={styles.cardbackground}>
-                            <View style={{flex:1,justifyContent:'center',alignItems:'center'}}>
-                                <Thumbnail large source={{uri: uri}} />
-                            </View>
-                            <View style={{flex:2,flexDirection: 'column'}}>
-                                <Text style={{marginTop:30,fontSize:22,color:'white'}}>Zafar Ansari</Text>
-                                <Text>Hair Style,Threatning,Styling...</Text>
-                                <View style={{width:20}}>
-                                    <StarRating
-                                        disabled={false}
-                                        maxStars={5}
-                                        starSize={12}
-                                        fullStarColor={'yellow'}
-                                        rating={this.state.starCount}
-                                        selectedStar={(rating) => this.onStarRatingPress(rating)}
-                                  />
-                                </View>
-                                <View style={{flexDirection:'row'}}>
-                                    <View style={{marginTop:10,width:width*0.3,flexDirection:'column',alignItems:'flex-start'}}>
-                                        <Button title="Show Profile" onPress={() => this.props.navigation.navigate('ProfileNav')}></Button>
-                                    </View>
-
-                                    <View style={{marginTop:10,width:width*0.3,flexDirection:'column'}}>
-                                        <Button title="Booking Now" onPress={() => this.props.navigation.navigate('BookingNav')}></Button>
-                                    </View>
-                                </View>
-                            </View>
-                        </Card>
+                                </Card>
+                            )
+                        })}
                     </Content>
-            </View>
+                </View>
             </View>
         );
     }
 }
+
 export default Employees;
 
+{/*selectedStar={(rating) => this.onStarRatingPress(rating)}*/}
