@@ -83,28 +83,31 @@ class LoginScreen extends Component {
     }
 
     async handleSubmit(){
-        this.props.navigation.navigate('DrawerNavigator');
-          // const { email, password, loader } = this.state;
-        // if(!loader) {
-        //     try {
-        //         this.setState({loader: true, formValid: false});
-        //         let obj = {
-        //             email,
-        //             password
-        //         };
-        //         let res = await HttpUtils.post('auth', obj);
-        //         console.log(res, 'ressssssssssss')
-        //         if (res.code === 200) {
-        //             AsyncStorage.setItem('user', JSON.stringify(res.content))
-        //                 .then((response) => {
-        //                     this.setState({loader: false});
-        //                     this.props.navigation.navigate('DrawerNavigator');
-        //                 });
-        //         }
-        //     } catch {
-        //         console.log('errorrrrrrrrrrr')
-        //     }
-        // }
+        // this.props.navigation.navigate('DrawerNavigator');
+          const { email, password, loader } = this.state;
+        if(email && password && !loader) {
+            try {
+                this.setState({loader: true, formValid: false});
+                let obj = {
+                    email,
+                    password
+                };
+                let res = await HttpUtils.post('auth', obj);
+                if (res.code === 200) {
+                    AsyncStorage.setItem('user', JSON.stringify(res.content))
+                        .then((response) => {
+                            this.setState({loader: false});
+                            if(res.content.role == 'user'){
+                                this.props.navigation.navigate('DrawerNavigator');                                
+                            }else {
+                                this.props.navigation.navigate('EmployeesHomeScreen');
+                            }
+                        });
+                }
+            } catch {
+                console.log('errorrrrrrrrrrr')
+            }
+        }
     }
 
     render(){

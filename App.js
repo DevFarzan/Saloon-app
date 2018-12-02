@@ -11,7 +11,7 @@ import SignUpScreen from './App/Containers/SignUpScreen';
 import DrawerNavigator from './App/Containers/DrawerNavigator'
 import TermCondition from './App/Containers/termCondition';
 import YourBookingScreen from './App/Containers/yourbooking';
-//import EmployeesHomeScreen from './App/Containers/EmployessHomeScreen';
+import EmployeesHomeScreen from './App/Containers/EmployessHomeScreen';
 
 export default class App extends Component {
     render() {
@@ -22,13 +22,13 @@ export default class App extends Component {
 }
 
 const AppStackNavigator = createStackNavigator({
-    //EmployeesHomeScreen:{screen:EmployeesHomeScreen},
     // ProfileScreen: {screen: ProfileScreen},
     // EmployeesScreen: { screen: EmployeesScreen},
-    //YourBookingScreen:{screen:YourBookingScreen},
+    // YourBookingScreen:{screen:YourBookingScreen},
     WelcomeScreen: { screen: WelcomeScreen },
     LoginScreen: { screen: LoginScreen },
     SignUpScreen: { screen: SignUpScreen },
+    EmployeesHomeScreen:{screen:EmployeesHomeScreen},
     TermCondition: { screen: TermCondition },
     DrawerNavigator: {
         screen: DrawerNavigator,

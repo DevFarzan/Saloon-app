@@ -78,13 +78,13 @@ class HomeScreen extends Component {
                 arr = employees.filter((elem) => elem.activity.includes(heading));
             }
         })
-        this.props.navigation.navigate('EmployeesNav', arr);
+        this.props.navigation.navigate('EmployeesNav', {arr, ...{heading}});
     }
 
 	render(){
         const { services } = this.state;
 		return(
-				<View>
+				<ScrollView>
                     <Image source={require('../../assets/Dark/signup/dashboard.jpg')} style={{width:width,height:height,position:'relative'}}></Image>
                     <View style={{position:'absolute', backgroundColor: 'rgba(0, 0, 0, 0.9)'}}>
 					    {services && services.map((elem) => {
@@ -108,7 +108,7 @@ class HomeScreen extends Component {
                        })
                    }
                     </View>
-				</View>
+				</ScrollView>
 			)
 	}
 }

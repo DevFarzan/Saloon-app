@@ -45,7 +45,7 @@ class Employees extends Component {
   }
     componentDidMount = () =>{
         const data = this.props.navigation.state.params;
-        this.setState({data})
+        this.setState({data: data.arr, service: data.heading})
     }
 
     static navigationOptions = ({ navigation }) => {
@@ -60,7 +60,7 @@ class Employees extends Component {
     }
 
     render() {
-        const { data } = this.state;
+        const { data, service } = this.state;
         const uri = "https://facebook.github.io/react-native/docs/assets/favicon.png";
         return (
             <View>
@@ -68,6 +68,7 @@ class Employees extends Component {
                 <View style={{position:'absolute', backgroundColor: 'rgba(0, 0, 0, 0.9)'}}>
                     <Content padder style={{width:width, marginBottom: 50}}>
                         {data && data.map((elem) => {
+                            console.log(elem, 'ary bhaiiiiiiiiii')
                             let str = elem.activity.join()
                             return (
                                 <Card style={styles.cardbackground}>
@@ -92,7 +93,7 @@ class Employees extends Component {
                                             </View>
 
                                             <View style={{marginTop:5,flexDirection:'column'}}>
-                                                <Button title="Booking Now" onPress={() => this.props.navigation.navigate('BookingNav', elem._id)}></Button>
+                                                <Button title="Booking Now" onPress={() => this.props.navigation.navigate('BookingNav', {id: elem.emp_id, service, emp_name: elem.name})}></Button>
                                             </View>
                                         </View>
                                     </View>

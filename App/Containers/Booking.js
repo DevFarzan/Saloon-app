@@ -53,27 +53,27 @@ class Booking extends Component {
             modal: false,
             modal2: false,
             _markedDates: initialState,
-            data : [  
+            allTime : [  
                 {id: '1', value: '11:00 AM', available: true},
-                {id: '2', value: '11:30 AM', available: false},
+                {id: '2', value: '11:30 AM', available: true},
                 {id: '3', value: '12:00 PM', available: true},
-                {id: '4', value: '12:30 PM', available: false},
+                {id: '4', value: '12:30 PM', available: true},
                 {id: '5', value: '1:00 PM', available: true},
                 {id: '6', value: '1:30 PM', available: true},
                 {id: '7', value: '2:00 PM', available: true},
                 {id: '8', value: '2:30 PM', available: true},
-                {id: '9', value: '3:00 PM', available: false},
-                {id: '10', value: '3:30 PM', available: false},
+                {id: '9', value: '3:00 PM', available: true},
+                {id: '10', value: '3:30 PM', available: true},
                 {id: '11', value: '4:00 PM', available: true},
                 {id: '12', value: '4:30 PM', available: true},
                 {id: '13', value: '5:00 PM', available: true},
-                {id: '14', value: '5:30 PM', available: false},
+                {id: '14', value: '5:30 PM', available: true},
                 {id: '15', value: '6:00 PM', available: true},
                 {id: '16', value: '6:30 PM', available: true},
                 {id: '17', value: '7:00 PM', available: true},
-                {id: '18', value: '7:30 PM', available: false},
+                {id: '18', value: '7:30 PM', available: true},
                 {id: '19', value: '8:00 PM', available: true},
-                {id: '20', value: '8:30 PM', available: false},
+                {id: '20', value: '8:30 PM', available: true},
                 {id: '21', value: '9:00 PM', available: true},
             ],
             tempSelected: {},
@@ -85,9 +85,9 @@ class Booking extends Component {
     }
 
     componentDidMount = () =>{
-        const emp_id = this.props.navigation.state.params;
-        this.getData(emp_id)
-        this.setState({emp_id})
+        let data = this.props.navigation.state.params;
+        this.getData(data.id)
+        this.setState({emp_id: data.id, service: data.service, emp_name: data.emp_name})
     }
 
     getData(emp_id){
@@ -101,7 +101,14 @@ class Booking extends Component {
                 user_id: obj._id,
                 emp_id
             })
+            this.getAllBooking(emp_id);
         })
+    }
+
+    async getAllBooking(emp_id){
+        let res = await HttpUtils.get('getBooking');
+        let allData = res.content.filter((elem) => elem.emp_id === emp_id)
+        this.setState({timeData: allData})
     }
 
     onDatePress(val){
@@ -202,16 +209,18 @@ class Booking extends Component {
     }
 
     async submitJob(){
-        const { name, email, phoneNo, tempDate, tempSelected, emp_id, user_id } = this.state;
+        const { name, email, phoneNo, tempDate, tempSelected, emp_id, user_id, service, emp_name } = this.state;
         if(Object.keys(tempSelected).length > 0){
             let obj = {
                 emp_id,
+                emp_name,
                 user_id,
                 name,
                 email,
                 number: phoneNo,
                 date: Object.keys(tempDate)[0],
                 time: tempSelected,
+                service,
                 obj_id: ''
             }
             let res = await HttpUtils.post('booking', obj);
@@ -279,6 +288,7 @@ class Booking extends Component {
     }
 
     sortingDates(_markedDates, _selectedDay){
+        const { timeData, allTime } = this.state;
         let marked = true;
         if (_markedDates[_selectedDay]) {
             marked = !_markedDates[_selectedDay].marked;
@@ -286,11 +296,28 @@ class Booking extends Component {
       
         const updatedMarkedDates = marked ? {..._markedDates, ...{ [_selectedDay]: { marked, startingDay: true, color: 'blue', endingDay: true, disable: false } } } : {..._markedDates, ...{ [_selectedDay]: { marked, disable: false } } }
         let tempDate = marked ? { [_selectedDay]: { marked, startingDay: true, color: 'blue', endingDay: true, disable: false } } : { [_selectedDay]: { marked, disable: false } };
+        
+        let date = Object.keys(tempDate)[0];
+        let exactTimeData = timeData && timeData.filter((elem) => date === elem.date)
+        let dateTimeData = [];
+        exactTimeData.map((elem) =>{
+            if(date === elem.date){
+                dateTimeData.push(elem.time && elem.time.id)
+            }
+        })
+        let arr = []
+        arr = allTime.map((val) => {
+            if(dateTimeData.includes(val.id)){
+                return {id: val.id, value: val.value, available: false}
+            }
+            return val
+        })
+        arr = arr.length ? arr : allTime;
         if(marked){
             this.closeModal();
             this.setState({ modal2: true });
         }
-        this.setState({ _markedDates: updatedMarkedDates, tempDate })
+        this.setState({ _markedDates: updatedMarkedDates, tempDate, data: arr })
     }
 
     render() {

@@ -33,7 +33,14 @@ class Profile extends Component {
     this.setState({
       starCount: rating
     });
+
   }
+  componentDidMount = () =>{
+        let data = this.props.navigation.state.params;
+        console.log(data, 'dataaaaaaaaaaaaaa')
+        // this.getData(data.id)
+        // this.setState({emp_id: data.id, service: data.service, emp_name: data.emp_name})
+    }
 
     render() {
       const uri = "https://res.cloudinary.com/dxk0bmtei/image/upload/v1540381839/profile1_ubhpee.jpg";
