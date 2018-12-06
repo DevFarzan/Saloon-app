@@ -3,13 +3,14 @@ import {
     View,
     Text,
     StyleSheet,
-    Image
+    Image,
+    AsyncStorage
 } from "react-native";
 
 
 import { TabNavigator } from 'react-navigation'
 import Icon from 'react-native-vector-icons/FontAwesome';
-
+import {AuthUtils} from "../Services/AuthUtils";
 import ScreenOne from './TabNavigator/ScreenOne'
 import ScreenTwo from './TabNavigator/ScreenTwo'
 import ScreenThree from './TabNavigator/ScreenThree'
@@ -38,7 +39,7 @@ class LogoTitle extends React.Component {
 class AppTabNavigator extends Component {
 
     static navigationOptions = ({ navigation }) => {
-        console.log((navigation, 'navigation'))
+        console.log((navigation, 'navigation123'))
         return {
             headerTitle: <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}><LogoTitle /></View>,
             headerStyle: {backgroundColor: 'white'},    
@@ -48,10 +49,16 @@ class AppTabNavigator extends Component {
                 </View>
             ),
             headerRight:(
-                <View>
+                <View style={{ padding: 20 }}>
+                    <Icon name="sign-out" size={24} 
+                        onPress={() => {
+                            AsyncStorage.removeItem('user')
+                            .then((response) => {
+                                navigation.navigate('WelcomeScreen');
+                            })
+                        }} />
                 </View>
             )
-
         }
     }
     render() {

@@ -4,21 +4,34 @@ import {
     View,
     StyleSheet,
     Dimensions,
-    Image
+    Image,
+    AsyncStorage
 } from "react-native";
 import styles from './styles/WelcomeScreen';
 const {height, width} = Dimensions.get("window");
 
 class WelcomeScreen extends Component {
+    componentDidMount = () =>{
+        this.getAllBooking();
+    }
 
-    static navigationOptions = {
-        header: null
-    };
+    async getAllBooking(){
+        AsyncStorage.getItem('user')
+        .then((response) => {
+            let obj = JSON.parse(response);
+            console.log(response, 'responseeeeeeee')
+            if(response.role == 'user'){
+                this.props.navigation.navigate('EmployeesHomeScreen');
+            }else {
+                this.props.navigation.navigate('DrawerNavigator');
+            }
+        })
+    }
 
     render() {
         return (
             <View style={styles.container}>
-                <View style={{marginTop:250}}></View>
+                <View style={{marginTop: height*0.3}}></View>
                 <View>
                     <Image source={require('../../assets/Dark/logof-14.png')} style={{width:width*0.7,height:height*0.1}}></Image>
                 </View>
@@ -32,7 +45,7 @@ class WelcomeScreen extends Component {
                     <Button title="Sign Up"
                         onPress={() => this.props.navigation.navigate('SignUpScreen')} />
                 </View>*/}
-                <View style={{marginTop:200}}></View>
+                <View style={{marginTop: height*0.35}}></View>
                 <View>
                     <Button bordered dark onPress={() => this.props.navigation.navigate('SignUpScreen')} style={{ width: width*0.7,justifyContent:'center'}}>
                         <Text>Create your Account</Text>
@@ -45,5 +58,10 @@ class WelcomeScreen extends Component {
         );
     }
 }
+
 export default WelcomeScreen;
+
+WelcomeScreen.navigationOptions = ({ navigation }) => ({
+    header: null
+})
 

@@ -112,10 +112,6 @@ class Tab2 extends React.Component {
 	}
 }
 
-
-
-
-
 class EmployeesHomeScreen extends Component{
 	static navigationOptions = ({ navigation }) => {
         console.log((navigation, 'navigation'))
@@ -152,28 +148,28 @@ class EmployeesHomeScreen extends Component{
 	render(){
 		const { scheduleData, historyData } = this.state;
 		return(
-		<Container>	
-	        <Header style={{backgroundColor:'white'}}>
-	          <Left style={{flex: 1}}>
-	          	<View></View>
-	          </Left>
-	          <Body style={{flex: 2}}>
-	            <Title style={{color:'black',alignSelf:'center'}}>Bookings</Title>
-	          </Body>
-	          <Right style={{flex:1}}>
-	          	<View></View>
-	          </Right>
-	        </Header>
-			<Tabs>
-				<Tab heading="SCHEDULED">
-				<Tab1 data={scheduleData} callMain={this.getAllBooking}/>
-				</Tab>
-				<Tab heading="HISTORY">
-			 		<Tab2 data={historyData}/>
-				</Tab>
-			</Tabs>
-		</Container>
-			)
+			<Container>	
+		        <Header style={{backgroundColor:'white'}}>
+		          <Left style={{flex: 1}}>
+		          	<View></View>
+		          </Left>
+		          <Body style={{flex: 2}}>
+		            <Title style={{color:'black',alignSelf:'center'}}>Bookings</Title>
+		          </Body>
+		          <Right style={{flex:1}}>
+		          	<View></View>
+		          </Right>
+		        </Header>
+				<Tabs>
+					<Tab heading="SCHEDULED">
+					<Tab1 data={scheduleData} callMain={this.getAllBooking}/>
+					</Tab>
+					<Tab heading="HISTORY">
+				 		<Tab2 data={historyData}/>
+					</Tab>
+				</Tabs>
+			</Container>
+		)
 	}
 }
 

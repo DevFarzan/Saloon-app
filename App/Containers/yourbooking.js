@@ -84,13 +84,14 @@ class Tab1 extends React.Component {
 		let indexOfFirst = date.indexOf(',');
 		let res = date.substring(0, indexOfFirst);
 		let dataDate = moment(elem.date, 'YYYY-MM-DD').subtract(1, 'days').format('YYYY-MM-DD');
+        console.log(dataDate, 'llllllllll')
 		let todayDate = elem.date;
 		console.log(todayDate, '1111111111')
 		let today = moment().format('YYYY-MM-DD');
 		console.log(today, '222222222')
 		let now = moment().format('LT');
 		let time = elem.time.value;
-		if(dataDate === today || now > time){
+		if(dataDate === today && now > time){
 			show = false
 		}else if(today === todayDate && today > todayDate){
 			show = false
@@ -345,6 +346,7 @@ class Tab2 extends React.Component {
 
 	render(){
 		const { data } = this.props;
+        console.log(data, 'datsaaaasasaaaaassssssssss')
 		return(
 			<ScrollView>
 				{data.length ? data.map((elem) => {
@@ -404,17 +406,22 @@ class Yourbooking extends React.Component {
     	AsyncStorage.getItem('user')
         .then((response) => {
             let obj = JSON.parse(response);
+            console.log(response, 'responseeeeeeee')
             let allData = res.content.filter((elem) => elem.user_id === obj._id)
             let scheduleData = allData.filter((elem) => elem.status === 'process')
             let historyData = allData.filter((elem) => elem.status === 'completed')
-            this.setState({scheduleData, historyData})
+            // historyData = historyData ? historyData  : []
+            console.log(scheduleData, 'sssssssssssssssssssss')
+            console.log(historyData, 'hhhhhhhhhhhhhhh')
+            this.setState({scheduleData})
         })
     }
 
 	render(){
 		const { scheduleData, historyData } = this.state;
+        console.log(scheduleData, 'sssssssssssssssssssss22222222')
+        console.log(historyData, 'hhhhhhhhhhhhhhh3333333333') 
 		return(
-				
 			<Container>
 			<Tabs>
   				<Tab heading="SCHEDULED">
@@ -425,8 +432,7 @@ class Yourbooking extends React.Component {
   				</Tab>
 			</Tabs>
 			</Container>
-				
-			)
+		)
 	}
 }
 

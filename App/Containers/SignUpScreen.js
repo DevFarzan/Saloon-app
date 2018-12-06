@@ -146,7 +146,7 @@ class SignUpScreen extends Component {
             <View style={styles.container}>
             
             <ScrollView>
-            <View style={{backgroundColor:'white',marginTop:65,width:width*0.9,height:height*0.7,marginLeft:20}}>
+            <View style={{backgroundColor:'white',marginTop: height*0.08,width:width*0.9,height:height*0.7,marginLeft:20}}>
                 <View style={styles.signupheadingview}>
                     <Text style={styles.signupheadeing}>Sign up</Text>
                 </View>

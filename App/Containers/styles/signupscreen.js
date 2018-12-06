@@ -15,13 +15,13 @@ export default StyleSheet.create({
 	signupheadeing:{
 		fontSize:30,
 		color:'black',
-		paddingTop:30,
+		paddingTop: height*0.04,
 		// fontFamily:'OpenSans-Italic'
 	},
 	inputComponent: {
         width:width*0.8,
         alignSelf: 'center',
-        marginTop:15,
+        marginTop:height*0.02,
         color:'white',
         borderColor:'black',
         borderWidth:1
@@ -39,9 +39,4 @@ export default StyleSheet.create({
     	fontSize:18,
     	marginBottom:10
     }
-
-
-
-
-
 });

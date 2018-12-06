@@ -84,7 +84,7 @@ class LoginScreen extends Component {
 
     async handleSubmit(){
         // this.props.navigation.navigate('DrawerNavigator');
-          const { email, password, loader } = this.state;
+        const { email, password, loader } = this.state;
         if(email && password && !loader) {
             try {
                 this.setState({loader: true, formValid: false});
