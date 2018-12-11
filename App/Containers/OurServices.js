@@ -78,6 +78,7 @@ class HomeScreen extends Component {
                 arr = employees.filter((elem) => elem.activity.includes(heading));
             }
         })
+        console.log(arr, 'arrrrrrrrrrr')
         this.props.navigation.navigate('EmployeesNav', {arr, ...{heading}});
     }
 

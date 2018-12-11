@@ -91,7 +91,6 @@ class Employees extends Component {
                                             <View style={{marginTop:5,flexDirection:'column',marginRight:10}}>
                                                 <Button title="Show Profile" onPress={() => this.props.navigation.navigate('ProfileNav', elem)}></Button>
                                             </View>
-
                                             <View style={{marginTop:5,flexDirection:'column'}}>
                                                 <Button title="Booking Now" onPress={() => this.props.navigation.navigate('BookingNav', {id: elem.emp_id, service, emp_name: elem.name})}></Button>
                                             </View>

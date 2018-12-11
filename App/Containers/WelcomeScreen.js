@@ -8,9 +8,59 @@ import {
     AsyncStorage
 } from "react-native";
 import styles from './styles/WelcomeScreen';
+import PushRN from "./rn-push";
+
 const {height, width} = Dimensions.get("window");
 
+const Push = PushRN;
+
+const sendTokenToServer = (token) => {
+  // alert(`Sending token ${token} to server`);
+  fetch(`https://secret-lake-46137.herokuapp.com/token/`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'text/plain',
+    },
+    body: token,
+  })
+    .then(() => { console.log('Successfully sent token'); })
+    .catch((err) => { console.error('Failed to send token', err); });
+};
+
 class WelcomeScreen extends Component {
+    constructor(props) {
+        super(props);
+        const onTokenReceived = (token) => { 
+            alert(token)
+            console.log(token, '111111111')
+            this.handleTokenUpdate(token);
+        };
+        this.push = new Push(onTokenReceived);
+        this.push.registerNotificationListener((notification) => {
+            console.log(notification, '3333333333')
+            this.onNotificationReceived(notification);
+        });
+        this.state = {
+            token: 'No device token registered yet.',
+            notification: 'No notification received yet',
+        };
+    }
+
+    componentWillUnmount() {
+        this.push.unregister();
+    }
+
+    async onNotificationReceived(notification) {
+        console.log('Received push notification', notification);
+        this.setState({ notification: notification.title });
+    }
+
+    handleTokenUpdate(token) {
+        console.log('Received token', token);
+        this.setState({ token });
+        sendTokenToServer(token);
+    }
+
     componentDidMount = () =>{
         this.getAllBooking();
     }

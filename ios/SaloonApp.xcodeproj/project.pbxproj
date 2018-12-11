@@ -65,6 +65,7 @@
 		AF9FFACF929E4974AEB348FF /* FontAwesome5_Brands.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F2F6E7C601C946059B92E503 /* FontAwesome5_Brands.ttf */; };
 		2A97462E83FF42A18B9A06A9 /* FontAwesome5_Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 200B17E9657E4D4A835E7665 /* FontAwesome5_Regular.ttf */; };
 		583C63840D78445E9FFCC2BD /* FontAwesome5_Solid.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0FE3675C90A24A9C88E4842E /* FontAwesome5_Solid.ttf */; };
+		B89FC6B4169C4B04A060CDFC /* AntDesign.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FFE444F3E13B491092C40D07 /* AntDesign.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -399,6 +400,7 @@
 		F2F6E7C601C946059B92E503 /* FontAwesome5_Brands.ttf */ = {isa = PBXFileReference; name = "FontAwesome5_Brands.ttf"; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Brands.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 		200B17E9657E4D4A835E7665 /* FontAwesome5_Regular.ttf */ = {isa = PBXFileReference; name = "FontAwesome5_Regular.ttf"; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 		0FE3675C90A24A9C88E4842E /* FontAwesome5_Solid.ttf */ = {isa = PBXFileReference; name = "FontAwesome5_Solid.ttf"; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Solid.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		FFE444F3E13B491092C40D07 /* AntDesign.ttf */ = {isa = PBXFileReference; name = "AntDesign.ttf"; path = "../node_modules/react-native-vector-icons/Fonts/AntDesign.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -692,6 +694,7 @@
 				F2F6E7C601C946059B92E503 /* FontAwesome5_Brands.ttf */,
 				200B17E9657E4D4A835E7665 /* FontAwesome5_Regular.ttf */,
 				0FE3675C90A24A9C88E4842E /* FontAwesome5_Solid.ttf */,
+				FFE444F3E13B491092C40D07 /* AntDesign.ttf */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -1170,6 +1173,7 @@
 				AF9FFACF929E4974AEB348FF /* FontAwesome5_Brands.ttf in Resources */,
 				2A97462E83FF42A18B9A06A9 /* FontAwesome5_Regular.ttf in Resources */,
 				583C63840D78445E9FFCC2BD /* FontAwesome5_Solid.ttf in Resources */,
+				B89FC6B4169C4B04A060CDFC /* AntDesign.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

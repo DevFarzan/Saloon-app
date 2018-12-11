@@ -22,9 +22,10 @@
     "react-native-hr": "^1.1.4",
     "react-native-modal": "^6.5.0",
     "react-native-picker-select": "^4.4.0",
+    "react-native-push-notification": "^3.1.2",
     "react-native-star-rating": "^1.1.0",
     "react-native-timeline-listview": "^0.2.3",
-    "react-native-vector-icons": "^5.0.0",
+    "react-native-vector-icons": "^6.1.0",
     "react-navigation": "^2.17.0",
     "react-navigation-slide-from-right-transition": "^1.0.4",
     "underscore": "^1.9.1"
